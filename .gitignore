@@ -4,3 +4,6 @@
 
 # Conventional directory for build output.
 build/
+
+# TKDB json file
+assets/tkdb.json

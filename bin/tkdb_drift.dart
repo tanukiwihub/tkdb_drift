@@ -1,5 +1,8 @@
-import 'package:tkdb_drift/tkdb_drift.dart' as tkdb_drift;
+import 'dart:io';
 
-void main(List<String> arguments) {
-  print('Hello world: ${tkdb_drift.calculate()}!');
+import 'package:tkdb_drift/tkdb_drift.dart';
+
+void main(List<String> arguments) async {
+  await buildOrUpdateDatabase();
+  exit(0);
 }
