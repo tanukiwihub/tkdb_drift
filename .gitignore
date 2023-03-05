@@ -7,3 +7,6 @@ build/
 
 # TKDB json file
 assets/tkdb.json
+
+# TKDB sqlite file
+db/tkdb.sqlite
