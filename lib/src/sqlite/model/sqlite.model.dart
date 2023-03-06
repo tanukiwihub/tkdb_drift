@@ -6,6 +6,40 @@ import 'package:path/path.dart' as p;
 
 part 'sqlite.model.g.dart';
 
+//
+// Global keywords
+//
+
+class Lang extends Table {
+  @override
+  String get tableName => 'lang';
+
+  TextColumn get radicalId => text()();
+  TextColumn get literal => text().unique()();
+  IntColumn get number => integer()();
+  IntColumn get strokes => integer()();
+  TextColumn get variantOf =>
+      text().nullable().references(Radicals, #radicalId)();
+
+  @override
+  Set<Column> get primaryKey => {radicalId};
+}
+
+class KanjiReadingTypes extends Table {
+  @override
+  String get tableName => 'kanji_reading_type';
+
+  TextColumn get kanjiReadingTypeId => text()();
+  TextColumn get descr => text()();
+
+  @override
+  Set<Column> get primaryKey => {kanjiReadingTypeId};
+}
+
+//
+// Radicals
+//
+
 class Radicals extends Table {
   @override
   String get tableName => 'radical';
@@ -45,26 +79,57 @@ class RadicalReadings extends Table {
   Set<Column> get primaryKey => {radicalId, position};
 }
 
-// this annotation tells drift to prepare a database class that uses both of the
-// tables we just defined. We'll see how to use that database class in a moment.
+//
+// Kanji
+//
 
-@DriftDatabase(tables: [Radicals, RadicalMeanings, RadicalReadings])
+class Kanjis extends Table {
+  @override
+  String get tableName => 'kanji';
+
+  TextColumn get kanjiId => text()();
+  TextColumn get literal => text().unique()();
+
+  @override
+  Set<Column> get primaryKey => {kanjiId};
+}
+
+class KanjiReadings extends Table {
+  @override
+  String get tableName => 'kanji_reading';
+
+  TextColumn get kanjiId => text().references(Kanjis, #kanjiId)();
+  IntColumn get position => integer()();
+  TextColumn get value => text()();
+
+  TextColumn get kanjiReadingTypeId =>
+      text().references(KanjiReadingTypes, #kanjiReadingTypeId)();
+
+  @override
+  Set<Column> get primaryKey => {kanjiId, kanjiReadingTypeId, position};
+}
+
+//
+// Database
+//
+
+@DriftDatabase(tables: [
+  Radicals,
+  RadicalMeanings,
+  RadicalReadings,
+  Kanjis,
+  KanjiReadings,
+  KanjiReadingTypes
+])
 class TKDBDatabase extends _$TKDBDatabase {
-  // we tell the database where to store the data with this constructor
   TKDBDatabase() : super(_openConnection());
 
-  // you should bump this number whenever you change or add a table definition.
-  // Migrations are covered later in the documentation.
   @override
   int get schemaVersion => 1;
 }
 
 LazyDatabase _openConnection() {
-  // the LazyDatabase util lets us find the right location for the file async.
   return LazyDatabase(() async {
-    // put the database file, called db.sqlite here, into the documents folder
-    // for your app.
-
     Directory current = Directory.current;
     final file = File(p.join(current.path, 'db/tkdb.sqlite'));
     return NativeDatabase.createInBackground(file);

@@ -719,6 +719,623 @@ class RadicalReadingsCompanion extends UpdateCompanion<RadicalReading> {
   }
 }
 
+class $KanjisTable extends Kanjis with TableInfo<$KanjisTable, Kanji> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $KanjisTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _kanjiIdMeta =
+      const VerificationMeta('kanjiId');
+  @override
+  late final GeneratedColumn<String> kanjiId = GeneratedColumn<String>(
+      'kanji_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _literalMeta =
+      const VerificationMeta('literal');
+  @override
+  late final GeneratedColumn<String> literal = GeneratedColumn<String>(
+      'literal', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
+  @override
+  List<GeneratedColumn> get $columns => [kanjiId, literal];
+  @override
+  String get aliasedName => _alias ?? 'kanji';
+  @override
+  String get actualTableName => 'kanji';
+  @override
+  VerificationContext validateIntegrity(Insertable<Kanji> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('kanji_id')) {
+      context.handle(_kanjiIdMeta,
+          kanjiId.isAcceptableOrUnknown(data['kanji_id']!, _kanjiIdMeta));
+    } else if (isInserting) {
+      context.missing(_kanjiIdMeta);
+    }
+    if (data.containsKey('literal')) {
+      context.handle(_literalMeta,
+          literal.isAcceptableOrUnknown(data['literal']!, _literalMeta));
+    } else if (isInserting) {
+      context.missing(_literalMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {kanjiId};
+  @override
+  Kanji map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Kanji(
+      kanjiId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}kanji_id'])!,
+      literal: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}literal'])!,
+    );
+  }
+
+  @override
+  $KanjisTable createAlias(String alias) {
+    return $KanjisTable(attachedDatabase, alias);
+  }
+}
+
+class Kanji extends DataClass implements Insertable<Kanji> {
+  final String kanjiId;
+  final String literal;
+  const Kanji({required this.kanjiId, required this.literal});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['kanji_id'] = Variable<String>(kanjiId);
+    map['literal'] = Variable<String>(literal);
+    return map;
+  }
+
+  KanjisCompanion toCompanion(bool nullToAbsent) {
+    return KanjisCompanion(
+      kanjiId: Value(kanjiId),
+      literal: Value(literal),
+    );
+  }
+
+  factory Kanji.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Kanji(
+      kanjiId: serializer.fromJson<String>(json['kanjiId']),
+      literal: serializer.fromJson<String>(json['literal']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'kanjiId': serializer.toJson<String>(kanjiId),
+      'literal': serializer.toJson<String>(literal),
+    };
+  }
+
+  Kanji copyWith({String? kanjiId, String? literal}) => Kanji(
+        kanjiId: kanjiId ?? this.kanjiId,
+        literal: literal ?? this.literal,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('Kanji(')
+          ..write('kanjiId: $kanjiId, ')
+          ..write('literal: $literal')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(kanjiId, literal);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Kanji &&
+          other.kanjiId == this.kanjiId &&
+          other.literal == this.literal);
+}
+
+class KanjisCompanion extends UpdateCompanion<Kanji> {
+  final Value<String> kanjiId;
+  final Value<String> literal;
+  const KanjisCompanion({
+    this.kanjiId = const Value.absent(),
+    this.literal = const Value.absent(),
+  });
+  KanjisCompanion.insert({
+    required String kanjiId,
+    required String literal,
+  })  : kanjiId = Value(kanjiId),
+        literal = Value(literal);
+  static Insertable<Kanji> custom({
+    Expression<String>? kanjiId,
+    Expression<String>? literal,
+  }) {
+    return RawValuesInsertable({
+      if (kanjiId != null) 'kanji_id': kanjiId,
+      if (literal != null) 'literal': literal,
+    });
+  }
+
+  KanjisCompanion copyWith({Value<String>? kanjiId, Value<String>? literal}) {
+    return KanjisCompanion(
+      kanjiId: kanjiId ?? this.kanjiId,
+      literal: literal ?? this.literal,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (kanjiId.present) {
+      map['kanji_id'] = Variable<String>(kanjiId.value);
+    }
+    if (literal.present) {
+      map['literal'] = Variable<String>(literal.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('KanjisCompanion(')
+          ..write('kanjiId: $kanjiId, ')
+          ..write('literal: $literal')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $KanjiReadingTypesTable extends KanjiReadingTypes
+    with TableInfo<$KanjiReadingTypesTable, KanjiReadingType> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $KanjiReadingTypesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _kanjiReadingTypeIdMeta =
+      const VerificationMeta('kanjiReadingTypeId');
+  @override
+  late final GeneratedColumn<String> kanjiReadingTypeId =
+      GeneratedColumn<String>('kanji_reading_type_id', aliasedName, false,
+          type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _descrMeta = const VerificationMeta('descr');
+  @override
+  late final GeneratedColumn<String> descr = GeneratedColumn<String>(
+      'descr', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [kanjiReadingTypeId, descr];
+  @override
+  String get aliasedName => _alias ?? 'kanji_reading_type';
+  @override
+  String get actualTableName => 'kanji_reading_type';
+  @override
+  VerificationContext validateIntegrity(Insertable<KanjiReadingType> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('kanji_reading_type_id')) {
+      context.handle(
+          _kanjiReadingTypeIdMeta,
+          kanjiReadingTypeId.isAcceptableOrUnknown(
+              data['kanji_reading_type_id']!, _kanjiReadingTypeIdMeta));
+    } else if (isInserting) {
+      context.missing(_kanjiReadingTypeIdMeta);
+    }
+    if (data.containsKey('descr')) {
+      context.handle(
+          _descrMeta, descr.isAcceptableOrUnknown(data['descr']!, _descrMeta));
+    } else if (isInserting) {
+      context.missing(_descrMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {kanjiReadingTypeId};
+  @override
+  KanjiReadingType map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return KanjiReadingType(
+      kanjiReadingTypeId: attachedDatabase.typeMapping.read(DriftSqlType.string,
+          data['${effectivePrefix}kanji_reading_type_id'])!,
+      descr: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}descr'])!,
+    );
+  }
+
+  @override
+  $KanjiReadingTypesTable createAlias(String alias) {
+    return $KanjiReadingTypesTable(attachedDatabase, alias);
+  }
+}
+
+class KanjiReadingType extends DataClass
+    implements Insertable<KanjiReadingType> {
+  final String kanjiReadingTypeId;
+  final String descr;
+  const KanjiReadingType(
+      {required this.kanjiReadingTypeId, required this.descr});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['kanji_reading_type_id'] = Variable<String>(kanjiReadingTypeId);
+    map['descr'] = Variable<String>(descr);
+    return map;
+  }
+
+  KanjiReadingTypesCompanion toCompanion(bool nullToAbsent) {
+    return KanjiReadingTypesCompanion(
+      kanjiReadingTypeId: Value(kanjiReadingTypeId),
+      descr: Value(descr),
+    );
+  }
+
+  factory KanjiReadingType.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return KanjiReadingType(
+      kanjiReadingTypeId:
+          serializer.fromJson<String>(json['kanjiReadingTypeId']),
+      descr: serializer.fromJson<String>(json['descr']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'kanjiReadingTypeId': serializer.toJson<String>(kanjiReadingTypeId),
+      'descr': serializer.toJson<String>(descr),
+    };
+  }
+
+  KanjiReadingType copyWith({String? kanjiReadingTypeId, String? descr}) =>
+      KanjiReadingType(
+        kanjiReadingTypeId: kanjiReadingTypeId ?? this.kanjiReadingTypeId,
+        descr: descr ?? this.descr,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('KanjiReadingType(')
+          ..write('kanjiReadingTypeId: $kanjiReadingTypeId, ')
+          ..write('descr: $descr')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(kanjiReadingTypeId, descr);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is KanjiReadingType &&
+          other.kanjiReadingTypeId == this.kanjiReadingTypeId &&
+          other.descr == this.descr);
+}
+
+class KanjiReadingTypesCompanion extends UpdateCompanion<KanjiReadingType> {
+  final Value<String> kanjiReadingTypeId;
+  final Value<String> descr;
+  const KanjiReadingTypesCompanion({
+    this.kanjiReadingTypeId = const Value.absent(),
+    this.descr = const Value.absent(),
+  });
+  KanjiReadingTypesCompanion.insert({
+    required String kanjiReadingTypeId,
+    required String descr,
+  })  : kanjiReadingTypeId = Value(kanjiReadingTypeId),
+        descr = Value(descr);
+  static Insertable<KanjiReadingType> custom({
+    Expression<String>? kanjiReadingTypeId,
+    Expression<String>? descr,
+  }) {
+    return RawValuesInsertable({
+      if (kanjiReadingTypeId != null)
+        'kanji_reading_type_id': kanjiReadingTypeId,
+      if (descr != null) 'descr': descr,
+    });
+  }
+
+  KanjiReadingTypesCompanion copyWith(
+      {Value<String>? kanjiReadingTypeId, Value<String>? descr}) {
+    return KanjiReadingTypesCompanion(
+      kanjiReadingTypeId: kanjiReadingTypeId ?? this.kanjiReadingTypeId,
+      descr: descr ?? this.descr,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (kanjiReadingTypeId.present) {
+      map['kanji_reading_type_id'] = Variable<String>(kanjiReadingTypeId.value);
+    }
+    if (descr.present) {
+      map['descr'] = Variable<String>(descr.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('KanjiReadingTypesCompanion(')
+          ..write('kanjiReadingTypeId: $kanjiReadingTypeId, ')
+          ..write('descr: $descr')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $KanjiReadingsTable extends KanjiReadings
+    with TableInfo<$KanjiReadingsTable, KanjiReading> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $KanjiReadingsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _kanjiIdMeta =
+      const VerificationMeta('kanjiId');
+  @override
+  late final GeneratedColumn<String> kanjiId = GeneratedColumn<String>(
+      'kanji_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES kanji (kanji_id)'));
+  static const VerificationMeta _positionMeta =
+      const VerificationMeta('position');
+  @override
+  late final GeneratedColumn<int> position = GeneratedColumn<int>(
+      'position', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _valueMeta = const VerificationMeta('value');
+  @override
+  late final GeneratedColumn<String> value = GeneratedColumn<String>(
+      'value', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _kanjiReadingTypeIdMeta =
+      const VerificationMeta('kanjiReadingTypeId');
+  @override
+  late final GeneratedColumn<String> kanjiReadingTypeId =
+      GeneratedColumn<String>('kanji_reading_type_id', aliasedName, false,
+          type: DriftSqlType.string,
+          requiredDuringInsert: true,
+          defaultConstraints: GeneratedColumn.constraintIsAlways(
+              'REFERENCES kanji_reading_type (kanji_reading_type_id)'));
+  @override
+  List<GeneratedColumn> get $columns =>
+      [kanjiId, position, value, kanjiReadingTypeId];
+  @override
+  String get aliasedName => _alias ?? 'kanji_reading';
+  @override
+  String get actualTableName => 'kanji_reading';
+  @override
+  VerificationContext validateIntegrity(Insertable<KanjiReading> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('kanji_id')) {
+      context.handle(_kanjiIdMeta,
+          kanjiId.isAcceptableOrUnknown(data['kanji_id']!, _kanjiIdMeta));
+    } else if (isInserting) {
+      context.missing(_kanjiIdMeta);
+    }
+    if (data.containsKey('position')) {
+      context.handle(_positionMeta,
+          position.isAcceptableOrUnknown(data['position']!, _positionMeta));
+    } else if (isInserting) {
+      context.missing(_positionMeta);
+    }
+    if (data.containsKey('value')) {
+      context.handle(
+          _valueMeta, value.isAcceptableOrUnknown(data['value']!, _valueMeta));
+    } else if (isInserting) {
+      context.missing(_valueMeta);
+    }
+    if (data.containsKey('kanji_reading_type_id')) {
+      context.handle(
+          _kanjiReadingTypeIdMeta,
+          kanjiReadingTypeId.isAcceptableOrUnknown(
+              data['kanji_reading_type_id']!, _kanjiReadingTypeIdMeta));
+    } else if (isInserting) {
+      context.missing(_kanjiReadingTypeIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey =>
+      {kanjiId, kanjiReadingTypeId, position};
+  @override
+  KanjiReading map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return KanjiReading(
+      kanjiId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}kanji_id'])!,
+      position: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}position'])!,
+      value: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}value'])!,
+      kanjiReadingTypeId: attachedDatabase.typeMapping.read(DriftSqlType.string,
+          data['${effectivePrefix}kanji_reading_type_id'])!,
+    );
+  }
+
+  @override
+  $KanjiReadingsTable createAlias(String alias) {
+    return $KanjiReadingsTable(attachedDatabase, alias);
+  }
+}
+
+class KanjiReading extends DataClass implements Insertable<KanjiReading> {
+  final String kanjiId;
+  final int position;
+  final String value;
+  final String kanjiReadingTypeId;
+  const KanjiReading(
+      {required this.kanjiId,
+      required this.position,
+      required this.value,
+      required this.kanjiReadingTypeId});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['kanji_id'] = Variable<String>(kanjiId);
+    map['position'] = Variable<int>(position);
+    map['value'] = Variable<String>(value);
+    map['kanji_reading_type_id'] = Variable<String>(kanjiReadingTypeId);
+    return map;
+  }
+
+  KanjiReadingsCompanion toCompanion(bool nullToAbsent) {
+    return KanjiReadingsCompanion(
+      kanjiId: Value(kanjiId),
+      position: Value(position),
+      value: Value(value),
+      kanjiReadingTypeId: Value(kanjiReadingTypeId),
+    );
+  }
+
+  factory KanjiReading.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return KanjiReading(
+      kanjiId: serializer.fromJson<String>(json['kanjiId']),
+      position: serializer.fromJson<int>(json['position']),
+      value: serializer.fromJson<String>(json['value']),
+      kanjiReadingTypeId:
+          serializer.fromJson<String>(json['kanjiReadingTypeId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'kanjiId': serializer.toJson<String>(kanjiId),
+      'position': serializer.toJson<int>(position),
+      'value': serializer.toJson<String>(value),
+      'kanjiReadingTypeId': serializer.toJson<String>(kanjiReadingTypeId),
+    };
+  }
+
+  KanjiReading copyWith(
+          {String? kanjiId,
+          int? position,
+          String? value,
+          String? kanjiReadingTypeId}) =>
+      KanjiReading(
+        kanjiId: kanjiId ?? this.kanjiId,
+        position: position ?? this.position,
+        value: value ?? this.value,
+        kanjiReadingTypeId: kanjiReadingTypeId ?? this.kanjiReadingTypeId,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('KanjiReading(')
+          ..write('kanjiId: $kanjiId, ')
+          ..write('position: $position, ')
+          ..write('value: $value, ')
+          ..write('kanjiReadingTypeId: $kanjiReadingTypeId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(kanjiId, position, value, kanjiReadingTypeId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is KanjiReading &&
+          other.kanjiId == this.kanjiId &&
+          other.position == this.position &&
+          other.value == this.value &&
+          other.kanjiReadingTypeId == this.kanjiReadingTypeId);
+}
+
+class KanjiReadingsCompanion extends UpdateCompanion<KanjiReading> {
+  final Value<String> kanjiId;
+  final Value<int> position;
+  final Value<String> value;
+  final Value<String> kanjiReadingTypeId;
+  const KanjiReadingsCompanion({
+    this.kanjiId = const Value.absent(),
+    this.position = const Value.absent(),
+    this.value = const Value.absent(),
+    this.kanjiReadingTypeId = const Value.absent(),
+  });
+  KanjiReadingsCompanion.insert({
+    required String kanjiId,
+    required int position,
+    required String value,
+    required String kanjiReadingTypeId,
+  })  : kanjiId = Value(kanjiId),
+        position = Value(position),
+        value = Value(value),
+        kanjiReadingTypeId = Value(kanjiReadingTypeId);
+  static Insertable<KanjiReading> custom({
+    Expression<String>? kanjiId,
+    Expression<int>? position,
+    Expression<String>? value,
+    Expression<String>? kanjiReadingTypeId,
+  }) {
+    return RawValuesInsertable({
+      if (kanjiId != null) 'kanji_id': kanjiId,
+      if (position != null) 'position': position,
+      if (value != null) 'value': value,
+      if (kanjiReadingTypeId != null)
+        'kanji_reading_type_id': kanjiReadingTypeId,
+    });
+  }
+
+  KanjiReadingsCompanion copyWith(
+      {Value<String>? kanjiId,
+      Value<int>? position,
+      Value<String>? value,
+      Value<String>? kanjiReadingTypeId}) {
+    return KanjiReadingsCompanion(
+      kanjiId: kanjiId ?? this.kanjiId,
+      position: position ?? this.position,
+      value: value ?? this.value,
+      kanjiReadingTypeId: kanjiReadingTypeId ?? this.kanjiReadingTypeId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (kanjiId.present) {
+      map['kanji_id'] = Variable<String>(kanjiId.value);
+    }
+    if (position.present) {
+      map['position'] = Variable<int>(position.value);
+    }
+    if (value.present) {
+      map['value'] = Variable<String>(value.value);
+    }
+    if (kanjiReadingTypeId.present) {
+      map['kanji_reading_type_id'] = Variable<String>(kanjiReadingTypeId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('KanjiReadingsCompanion(')
+          ..write('kanjiId: $kanjiId, ')
+          ..write('position: $position, ')
+          ..write('value: $value, ')
+          ..write('kanjiReadingTypeId: $kanjiReadingTypeId')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$TKDBDatabase extends GeneratedDatabase {
   _$TKDBDatabase(QueryExecutor e) : super(e);
   late final $RadicalsTable radicals = $RadicalsTable(this);
@@ -726,10 +1343,20 @@ abstract class _$TKDBDatabase extends GeneratedDatabase {
       $RadicalMeaningsTable(this);
   late final $RadicalReadingsTable radicalReadings =
       $RadicalReadingsTable(this);
+  late final $KanjisTable kanjis = $KanjisTable(this);
+  late final $KanjiReadingTypesTable kanjiReadingTypes =
+      $KanjiReadingTypesTable(this);
+  late final $KanjiReadingsTable kanjiReadings = $KanjiReadingsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [radicals, radicalMeanings, radicalReadings];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+        radicals,
+        radicalMeanings,
+        radicalReadings,
+        kanjis,
+        kanjiReadingTypes,
+        kanjiReadings
+      ];
 }

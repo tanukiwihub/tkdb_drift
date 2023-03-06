@@ -8,8 +8,10 @@ buildOrUpdateDatabase() async {
   final TKDB tkdbJson = await getTKDBInJson();
   final TKDBDatabase database = TKDBDatabase();
 
-  await TKDBDriftMapper(
+  final TKDBDriftMapper mapper = TKDBDriftMapper(
     database: database,
     tkdbJson: tkdbJson,
-  ).upsertTKDB();
+  );
+
+  await mapper.upsertTKDB();
 }
