@@ -10,19 +10,37 @@ part 'sqlite.model.g.dart';
 // Global keywords
 //
 
-class Lang extends Table {
+class Langs extends Table {
   @override
   String get tableName => 'lang';
 
-  TextColumn get radicalId => text()();
-  TextColumn get literal => text().unique()();
-  IntColumn get number => integer()();
-  IntColumn get strokes => integer()();
-  TextColumn get variantOf =>
-      text().nullable().references(Radicals, #radicalId)();
+  TextColumn get langId => text()();
+  TextColumn get englishName => text().unique()();
 
   @override
-  Set<Column> get primaryKey => {radicalId};
+  Set<Column> get primaryKey => {langId};
+}
+
+class JlptLevels extends Table {
+  @override
+  String get tableName => 'jlpt';
+
+  TextColumn get jlptId => text()();
+  TextColumn get descr => text().unique()();
+
+  @override
+  Set<Column> get primaryKey => {jlptId};
+}
+
+class KanjiGrades extends Table {
+  @override
+  String get tableName => 'kanji_grade';
+
+  TextColumn get kanjiGradeId => text()();
+  TextColumn get descr => text()();
+
+  @override
+  Set<Column> get primaryKey => {kanjiGradeId};
 }
 
 class KanjiReadingTypes extends Table {
@@ -45,7 +63,7 @@ class Radicals extends Table {
   String get tableName => 'radical';
 
   TextColumn get radicalId => text()();
-  TextColumn get literal => text().unique()();
+  TextColumn get hexcode => text().unique()();
   IntColumn get number => integer()();
   IntColumn get strokes => integer()();
   TextColumn get variantOf =>
@@ -88,7 +106,12 @@ class Kanjis extends Table {
   String get tableName => 'kanji';
 
   TextColumn get kanjiId => text()();
-  TextColumn get literal => text().unique()();
+  TextColumn get hexcode => text().unique()();
+  IntColumn get strokes => integer().nullable()();
+  IntColumn get frequencyJ => integer().nullable()();
+  TextColumn get jlptId => text().nullable().references(JlptLevels, #jlptId)();
+  TextColumn get kanjiGradeId =>
+      text().nullable().references(KanjiGrades, #kanjiGradeId)();
 
   @override
   Set<Column> get primaryKey => {kanjiId};
@@ -109,17 +132,98 @@ class KanjiReadings extends Table {
   Set<Column> get primaryKey => {kanjiId, kanjiReadingTypeId, position};
 }
 
+class KanjiMeanings extends Table {
+  @override
+  String get tableName => 'kanji_meaning';
+
+  TextColumn get kanjiId => text().references(Kanjis, #kanjiId)();
+  TextColumn get langId => text().references(Langs, #langId)();
+  IntColumn get position => integer()();
+  TextColumn get value => text()();
+
+  @override
+  Set<Column> get primaryKey => {kanjiId, langId, position};
+}
+
+class KanjiParts extends Table {
+  @override
+  String get tableName => 'kanji_part';
+
+  TextColumn get kanjiId => text().references(Kanjis, #kanjiId)();
+  IntColumn get position => integer()();
+  TextColumn get partKanjiId =>
+      text().nullable().references(Kanjis, #kanjiId)();
+  TextColumn get partRadicalId =>
+      text().nullable().references(Radicals, #radicalId)();
+  TextColumn get partComponent => text().nullable()();
+
+  @override
+  Set<Column> get primaryKey => {kanjiId, position};
+}
+
+class KanjiLookalikes extends Table {
+  @override
+  String get tableName => 'kanji_lookalike';
+
+  TextColumn get kanjiId => text().references(Kanjis, #kanjiId)();
+  TextColumn get lookalikeKanjiId => text().references(Kanjis, #kanjiId)();
+
+  @override
+  Set<Column> get primaryKey => {kanjiId, lookalikeKanjiId};
+}
+
+class KanjiAntonyms extends Table {
+  @override
+  String get tableName => 'kanji_antonym';
+
+  TextColumn get kanjiId => text().references(Kanjis, #kanjiId)();
+  TextColumn get antonymKanjiId => text().references(Kanjis, #kanjiId)();
+
+  @override
+  Set<Column> get primaryKey => {kanjiId, antonymKanjiId};
+}
+
+class KanjiSynonyms extends Table {
+  @override
+  String get tableName => 'kanji_synonym';
+
+  TextColumn get kanjiId => text().references(Kanjis, #kanjiId)();
+  TextColumn get synonymKanjiId => text().references(Kanjis, #kanjiId)();
+
+  @override
+  Set<Column> get primaryKey => {kanjiId, synonymKanjiId};
+}
+
+class KanjiVariants extends Table {
+  @override
+  String get tableName => 'kanji_variant';
+
+  TextColumn get kanjiId => text().references(Kanjis, #kanjiId)();
+  TextColumn get variantKanjiId => text().references(Kanjis, #kanjiId)();
+
+  @override
+  Set<Column> get primaryKey => {kanjiId, variantKanjiId};
+}
+
 //
 // Database
 //
 
 @DriftDatabase(tables: [
+  JlptLevels,
   Radicals,
   RadicalMeanings,
   RadicalReadings,
   Kanjis,
+  KanjiGrades,
   KanjiReadings,
-  KanjiReadingTypes
+  KanjiReadingTypes,
+  KanjiMeanings,
+  KanjiParts,
+  KanjiLookalikes,
+  KanjiAntonyms,
+  KanjiSynonyms,
+  KanjiVariants,
 ])
 class TKDBDatabase extends _$TKDBDatabase {
   TKDBDatabase() : super(_openConnection());

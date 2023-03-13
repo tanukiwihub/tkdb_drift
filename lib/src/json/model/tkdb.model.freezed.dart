@@ -24,7 +24,7 @@ mixin _$TKDB {
   String get dateOfCreation => throw _privateConstructorUsedError;
   List<TKDBRadical> get radicals => throw _privateConstructorUsedError;
   List<TKDBKanji> get kanji => throw _privateConstructorUsedError;
-  TKDBTag get tags => throw _privateConstructorUsedError;
+  TKDBKeyword get keywords => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,9 +41,9 @@ abstract class $TKDBCopyWith<$Res> {
       String dateOfCreation,
       List<TKDBRadical> radicals,
       List<TKDBKanji> kanji,
-      TKDBTag tags});
+      TKDBKeyword keywords});
 
-  $TKDBTagCopyWith<$Res> get tags;
+  $TKDBKeywordCopyWith<$Res> get keywords;
 }
 
 /// @nodoc
@@ -63,7 +63,7 @@ class _$TKDBCopyWithImpl<$Res, $Val extends TKDB>
     Object? dateOfCreation = null,
     Object? radicals = null,
     Object? kanji = null,
-    Object? tags = null,
+    Object? keywords = null,
   }) {
     return _then(_value.copyWith(
       version: null == version
@@ -82,18 +82,18 @@ class _$TKDBCopyWithImpl<$Res, $Val extends TKDB>
           ? _value.kanji
           : kanji // ignore: cast_nullable_to_non_nullable
               as List<TKDBKanji>,
-      tags: null == tags
-          ? _value.tags
-          : tags // ignore: cast_nullable_to_non_nullable
-              as TKDBTag,
+      keywords: null == keywords
+          ? _value.keywords
+          : keywords // ignore: cast_nullable_to_non_nullable
+              as TKDBKeyword,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $TKDBTagCopyWith<$Res> get tags {
-    return $TKDBTagCopyWith<$Res>(_value.tags, (value) {
-      return _then(_value.copyWith(tags: value) as $Val);
+  $TKDBKeywordCopyWith<$Res> get keywords {
+    return $TKDBKeywordCopyWith<$Res>(_value.keywords, (value) {
+      return _then(_value.copyWith(keywords: value) as $Val);
     });
   }
 }
@@ -109,10 +109,10 @@ abstract class _$$_TKDBCopyWith<$Res> implements $TKDBCopyWith<$Res> {
       String dateOfCreation,
       List<TKDBRadical> radicals,
       List<TKDBKanji> kanji,
-      TKDBTag tags});
+      TKDBKeyword keywords});
 
   @override
-  $TKDBTagCopyWith<$Res> get tags;
+  $TKDBKeywordCopyWith<$Res> get keywords;
 }
 
 /// @nodoc
@@ -128,7 +128,7 @@ class __$$_TKDBCopyWithImpl<$Res> extends _$TKDBCopyWithImpl<$Res, _$_TKDB>
     Object? dateOfCreation = null,
     Object? radicals = null,
     Object? kanji = null,
-    Object? tags = null,
+    Object? keywords = null,
   }) {
     return _then(_$_TKDB(
       version: null == version
@@ -147,10 +147,10 @@ class __$$_TKDBCopyWithImpl<$Res> extends _$TKDBCopyWithImpl<$Res, _$_TKDB>
           ? _value._kanji
           : kanji // ignore: cast_nullable_to_non_nullable
               as List<TKDBKanji>,
-      tags: null == tags
-          ? _value.tags
-          : tags // ignore: cast_nullable_to_non_nullable
-              as TKDBTag,
+      keywords: null == keywords
+          ? _value.keywords
+          : keywords // ignore: cast_nullable_to_non_nullable
+              as TKDBKeyword,
     ));
   }
 }
@@ -163,7 +163,7 @@ class _$_TKDB implements _TKDB {
       required this.dateOfCreation,
       required final List<TKDBRadical> radicals,
       required final List<TKDBKanji> kanji,
-      required this.tags})
+      required this.keywords})
       : _radicals = radicals,
         _kanji = kanji;
 
@@ -190,11 +190,11 @@ class _$_TKDB implements _TKDB {
   }
 
   @override
-  final TKDBTag tags;
+  final TKDBKeyword keywords;
 
   @override
   String toString() {
-    return 'TKDB(version: $version, dateOfCreation: $dateOfCreation, radicals: $radicals, kanji: $kanji, tags: $tags)';
+    return 'TKDB(version: $version, dateOfCreation: $dateOfCreation, radicals: $radicals, kanji: $kanji, keywords: $keywords)';
   }
 
   @override
@@ -207,7 +207,8 @@ class _$_TKDB implements _TKDB {
                 other.dateOfCreation == dateOfCreation) &&
             const DeepCollectionEquality().equals(other._radicals, _radicals) &&
             const DeepCollectionEquality().equals(other._kanji, _kanji) &&
-            (identical(other.tags, tags) || other.tags == tags));
+            (identical(other.keywords, keywords) ||
+                other.keywords == keywords));
   }
 
   @JsonKey(ignore: true)
@@ -218,7 +219,7 @@ class _$_TKDB implements _TKDB {
       dateOfCreation,
       const DeepCollectionEquality().hash(_radicals),
       const DeepCollectionEquality().hash(_kanji),
-      tags);
+      keywords);
 
   @JsonKey(ignore: true)
   @override
@@ -240,7 +241,7 @@ abstract class _TKDB implements TKDB {
       required final String dateOfCreation,
       required final List<TKDBRadical> radicals,
       required final List<TKDBKanji> kanji,
-      required final TKDBTag tags}) = _$_TKDB;
+      required final TKDBKeyword keywords}) = _$_TKDB;
 
   factory _TKDB.fromJson(Map<String, dynamic> json) = _$_TKDB.fromJson;
 
@@ -253,38 +254,47 @@ abstract class _TKDB implements TKDB {
   @override
   List<TKDBKanji> get kanji;
   @override
-  TKDBTag get tags;
+  TKDBKeyword get keywords;
   @override
   @JsonKey(ignore: true)
   _$$_TKDBCopyWith<_$_TKDB> get copyWith => throw _privateConstructorUsedError;
 }
 
-TKDBTag _$TKDBTagFromJson(Map<String, dynamic> json) {
-  return _TKDBTag.fromJson(json);
+TKDBKeyword _$TKDBKeywordFromJson(Map<String, dynamic> json) {
+  return _TKDBKeyword.fromJson(json);
 }
 
 /// @nodoc
-mixin _$TKDBTag {
+mixin _$TKDBKeyword {
+  Map<String, String> get jlpt => throw _privateConstructorUsedError;
+  Map<String, String> get lang => throw _privateConstructorUsedError;
+  Map<String, String> get kanjiGrade => throw _privateConstructorUsedError;
   Map<String, String> get kanjiReadingType =>
       throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $TKDBTagCopyWith<TKDBTag> get copyWith => throw _privateConstructorUsedError;
+  $TKDBKeywordCopyWith<TKDBKeyword> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TKDBTagCopyWith<$Res> {
-  factory $TKDBTagCopyWith(TKDBTag value, $Res Function(TKDBTag) then) =
-      _$TKDBTagCopyWithImpl<$Res, TKDBTag>;
+abstract class $TKDBKeywordCopyWith<$Res> {
+  factory $TKDBKeywordCopyWith(
+          TKDBKeyword value, $Res Function(TKDBKeyword) then) =
+      _$TKDBKeywordCopyWithImpl<$Res, TKDBKeyword>;
   @useResult
-  $Res call({Map<String, String> kanjiReadingType});
+  $Res call(
+      {Map<String, String> jlpt,
+      Map<String, String> lang,
+      Map<String, String> kanjiGrade,
+      Map<String, String> kanjiReadingType});
 }
 
 /// @nodoc
-class _$TKDBTagCopyWithImpl<$Res, $Val extends TKDBTag>
-    implements $TKDBTagCopyWith<$Res> {
-  _$TKDBTagCopyWithImpl(this._value, this._then);
+class _$TKDBKeywordCopyWithImpl<$Res, $Val extends TKDBKeyword>
+    implements $TKDBKeywordCopyWith<$Res> {
+  _$TKDBKeywordCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -294,9 +304,24 @@ class _$TKDBTagCopyWithImpl<$Res, $Val extends TKDBTag>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? jlpt = null,
+    Object? lang = null,
+    Object? kanjiGrade = null,
     Object? kanjiReadingType = null,
   }) {
     return _then(_value.copyWith(
+      jlpt: null == jlpt
+          ? _value.jlpt
+          : jlpt // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      lang: null == lang
+          ? _value.lang
+          : lang // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      kanjiGrade: null == kanjiGrade
+          ? _value.kanjiGrade
+          : kanjiGrade // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
       kanjiReadingType: null == kanjiReadingType
           ? _value.kanjiReadingType
           : kanjiReadingType // ignore: cast_nullable_to_non_nullable
@@ -306,28 +331,49 @@ class _$TKDBTagCopyWithImpl<$Res, $Val extends TKDBTag>
 }
 
 /// @nodoc
-abstract class _$$_TKDBTagCopyWith<$Res> implements $TKDBTagCopyWith<$Res> {
-  factory _$$_TKDBTagCopyWith(
-          _$_TKDBTag value, $Res Function(_$_TKDBTag) then) =
-      __$$_TKDBTagCopyWithImpl<$Res>;
+abstract class _$$_TKDBKeywordCopyWith<$Res>
+    implements $TKDBKeywordCopyWith<$Res> {
+  factory _$$_TKDBKeywordCopyWith(
+          _$_TKDBKeyword value, $Res Function(_$_TKDBKeyword) then) =
+      __$$_TKDBKeywordCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Map<String, String> kanjiReadingType});
+  $Res call(
+      {Map<String, String> jlpt,
+      Map<String, String> lang,
+      Map<String, String> kanjiGrade,
+      Map<String, String> kanjiReadingType});
 }
 
 /// @nodoc
-class __$$_TKDBTagCopyWithImpl<$Res>
-    extends _$TKDBTagCopyWithImpl<$Res, _$_TKDBTag>
-    implements _$$_TKDBTagCopyWith<$Res> {
-  __$$_TKDBTagCopyWithImpl(_$_TKDBTag _value, $Res Function(_$_TKDBTag) _then)
+class __$$_TKDBKeywordCopyWithImpl<$Res>
+    extends _$TKDBKeywordCopyWithImpl<$Res, _$_TKDBKeyword>
+    implements _$$_TKDBKeywordCopyWith<$Res> {
+  __$$_TKDBKeywordCopyWithImpl(
+      _$_TKDBKeyword _value, $Res Function(_$_TKDBKeyword) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? jlpt = null,
+    Object? lang = null,
+    Object? kanjiGrade = null,
     Object? kanjiReadingType = null,
   }) {
-    return _then(_$_TKDBTag(
+    return _then(_$_TKDBKeyword(
+      jlpt: null == jlpt
+          ? _value._jlpt
+          : jlpt // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      lang: null == lang
+          ? _value._lang
+          : lang // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      kanjiGrade: null == kanjiGrade
+          ? _value._kanjiGrade
+          : kanjiGrade // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
       kanjiReadingType: null == kanjiReadingType
           ? _value._kanjiReadingType
           : kanjiReadingType // ignore: cast_nullable_to_non_nullable
@@ -338,12 +384,43 @@ class __$$_TKDBTagCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TKDBTag implements _TKDBTag {
-  const _$_TKDBTag({required final Map<String, String> kanjiReadingType})
-      : _kanjiReadingType = kanjiReadingType;
+class _$_TKDBKeyword implements _TKDBKeyword {
+  const _$_TKDBKeyword(
+      {required final Map<String, String> jlpt,
+      required final Map<String, String> lang,
+      required final Map<String, String> kanjiGrade,
+      required final Map<String, String> kanjiReadingType})
+      : _jlpt = jlpt,
+        _lang = lang,
+        _kanjiGrade = kanjiGrade,
+        _kanjiReadingType = kanjiReadingType;
 
-  factory _$_TKDBTag.fromJson(Map<String, dynamic> json) =>
-      _$$_TKDBTagFromJson(json);
+  factory _$_TKDBKeyword.fromJson(Map<String, dynamic> json) =>
+      _$$_TKDBKeywordFromJson(json);
+
+  final Map<String, String> _jlpt;
+  @override
+  Map<String, String> get jlpt {
+    if (_jlpt is EqualUnmodifiableMapView) return _jlpt;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_jlpt);
+  }
+
+  final Map<String, String> _lang;
+  @override
+  Map<String, String> get lang {
+    if (_lang is EqualUnmodifiableMapView) return _lang;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_lang);
+  }
+
+  final Map<String, String> _kanjiGrade;
+  @override
+  Map<String, String> get kanjiGrade {
+    if (_kanjiGrade is EqualUnmodifiableMapView) return _kanjiGrade;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_kanjiGrade);
+  }
 
   final Map<String, String> _kanjiReadingType;
   @override
@@ -355,14 +432,18 @@ class _$_TKDBTag implements _TKDBTag {
 
   @override
   String toString() {
-    return 'TKDBTag(kanjiReadingType: $kanjiReadingType)';
+    return 'TKDBKeyword(jlpt: $jlpt, lang: $lang, kanjiGrade: $kanjiGrade, kanjiReadingType: $kanjiReadingType)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TKDBTag &&
+            other is _$_TKDBKeyword &&
+            const DeepCollectionEquality().equals(other._jlpt, _jlpt) &&
+            const DeepCollectionEquality().equals(other._lang, _lang) &&
+            const DeepCollectionEquality()
+                .equals(other._kanjiGrade, _kanjiGrade) &&
             const DeepCollectionEquality()
                 .equals(other._kanjiReadingType, _kanjiReadingType));
   }
@@ -370,33 +451,47 @@ class _$_TKDBTag implements _TKDBTag {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_kanjiReadingType));
+      runtimeType,
+      const DeepCollectionEquality().hash(_jlpt),
+      const DeepCollectionEquality().hash(_lang),
+      const DeepCollectionEquality().hash(_kanjiGrade),
+      const DeepCollectionEquality().hash(_kanjiReadingType));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TKDBTagCopyWith<_$_TKDBTag> get copyWith =>
-      __$$_TKDBTagCopyWithImpl<_$_TKDBTag>(this, _$identity);
+  _$$_TKDBKeywordCopyWith<_$_TKDBKeyword> get copyWith =>
+      __$$_TKDBKeywordCopyWithImpl<_$_TKDBKeyword>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TKDBTagToJson(
+    return _$$_TKDBKeywordToJson(
       this,
     );
   }
 }
 
-abstract class _TKDBTag implements TKDBTag {
-  const factory _TKDBTag(
-      {required final Map<String, String> kanjiReadingType}) = _$_TKDBTag;
+abstract class _TKDBKeyword implements TKDBKeyword {
+  const factory _TKDBKeyword(
+      {required final Map<String, String> jlpt,
+      required final Map<String, String> lang,
+      required final Map<String, String> kanjiGrade,
+      required final Map<String, String> kanjiReadingType}) = _$_TKDBKeyword;
 
-  factory _TKDBTag.fromJson(Map<String, dynamic> json) = _$_TKDBTag.fromJson;
+  factory _TKDBKeyword.fromJson(Map<String, dynamic> json) =
+      _$_TKDBKeyword.fromJson;
 
+  @override
+  Map<String, String> get jlpt;
+  @override
+  Map<String, String> get lang;
+  @override
+  Map<String, String> get kanjiGrade;
   @override
   Map<String, String> get kanjiReadingType;
   @override
   @JsonKey(ignore: true)
-  _$$_TKDBTagCopyWith<_$_TKDBTag> get copyWith =>
+  _$$_TKDBKeywordCopyWith<_$_TKDBKeyword> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -407,8 +502,8 @@ TKDBRadical _$TKDBRadicalFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TKDBRadical {
   String get literal => throw _privateConstructorUsedError;
-  String get kvgHexcode => throw _privateConstructorUsedError;
-  int get strokecount => throw _privateConstructorUsedError;
+  String get hexcode => throw _privateConstructorUsedError;
+  int get strokes => throw _privateConstructorUsedError;
   int get number => throw _privateConstructorUsedError;
   List<String> get meaning => throw _privateConstructorUsedError;
   List<String> get reading => throw _privateConstructorUsedError;
@@ -428,8 +523,8 @@ abstract class $TKDBRadicalCopyWith<$Res> {
   @useResult
   $Res call(
       {String literal,
-      String kvgHexcode,
-      int strokecount,
+      String hexcode,
+      int strokes,
       int number,
       List<String> meaning,
       List<String> reading,
@@ -450,8 +545,8 @@ class _$TKDBRadicalCopyWithImpl<$Res, $Val extends TKDBRadical>
   @override
   $Res call({
     Object? literal = null,
-    Object? kvgHexcode = null,
-    Object? strokecount = null,
+    Object? hexcode = null,
+    Object? strokes = null,
     Object? number = null,
     Object? meaning = null,
     Object? reading = null,
@@ -462,13 +557,13 @@ class _$TKDBRadicalCopyWithImpl<$Res, $Val extends TKDBRadical>
           ? _value.literal
           : literal // ignore: cast_nullable_to_non_nullable
               as String,
-      kvgHexcode: null == kvgHexcode
-          ? _value.kvgHexcode
-          : kvgHexcode // ignore: cast_nullable_to_non_nullable
+      hexcode: null == hexcode
+          ? _value.hexcode
+          : hexcode // ignore: cast_nullable_to_non_nullable
               as String,
-      strokecount: null == strokecount
-          ? _value.strokecount
-          : strokecount // ignore: cast_nullable_to_non_nullable
+      strokes: null == strokes
+          ? _value.strokes
+          : strokes // ignore: cast_nullable_to_non_nullable
               as int,
       number: null == number
           ? _value.number
@@ -500,8 +595,8 @@ abstract class _$$_TKDBRadicalCopyWith<$Res>
   @useResult
   $Res call(
       {String literal,
-      String kvgHexcode,
-      int strokecount,
+      String hexcode,
+      int strokes,
       int number,
       List<String> meaning,
       List<String> reading,
@@ -520,8 +615,8 @@ class __$$_TKDBRadicalCopyWithImpl<$Res>
   @override
   $Res call({
     Object? literal = null,
-    Object? kvgHexcode = null,
-    Object? strokecount = null,
+    Object? hexcode = null,
+    Object? strokes = null,
     Object? number = null,
     Object? meaning = null,
     Object? reading = null,
@@ -532,13 +627,13 @@ class __$$_TKDBRadicalCopyWithImpl<$Res>
           ? _value.literal
           : literal // ignore: cast_nullable_to_non_nullable
               as String,
-      kvgHexcode: null == kvgHexcode
-          ? _value.kvgHexcode
-          : kvgHexcode // ignore: cast_nullable_to_non_nullable
+      hexcode: null == hexcode
+          ? _value.hexcode
+          : hexcode // ignore: cast_nullable_to_non_nullable
               as String,
-      strokecount: null == strokecount
-          ? _value.strokecount
-          : strokecount // ignore: cast_nullable_to_non_nullable
+      strokes: null == strokes
+          ? _value.strokes
+          : strokes // ignore: cast_nullable_to_non_nullable
               as int,
       number: null == number
           ? _value.number
@@ -565,8 +660,8 @@ class __$$_TKDBRadicalCopyWithImpl<$Res>
 class _$_TKDBRadical implements _TKDBRadical {
   const _$_TKDBRadical(
       {required this.literal,
-      required this.kvgHexcode,
-      required this.strokecount,
+      required this.hexcode,
+      required this.strokes,
       required this.number,
       required final List<String> meaning,
       required final List<String> reading,
@@ -580,9 +675,9 @@ class _$_TKDBRadical implements _TKDBRadical {
   @override
   final String literal;
   @override
-  final String kvgHexcode;
+  final String hexcode;
   @override
-  final int strokecount;
+  final int strokes;
   @override
   final int number;
   final List<String> _meaning;
@@ -606,7 +701,7 @@ class _$_TKDBRadical implements _TKDBRadical {
 
   @override
   String toString() {
-    return 'TKDBRadical(literal: $literal, kvgHexcode: $kvgHexcode, strokecount: $strokecount, number: $number, meaning: $meaning, reading: $reading, variantOf: $variantOf)';
+    return 'TKDBRadical(literal: $literal, hexcode: $hexcode, strokes: $strokes, number: $number, meaning: $meaning, reading: $reading, variantOf: $variantOf)';
   }
 
   @override
@@ -615,10 +710,8 @@ class _$_TKDBRadical implements _TKDBRadical {
         (other.runtimeType == runtimeType &&
             other is _$_TKDBRadical &&
             (identical(other.literal, literal) || other.literal == literal) &&
-            (identical(other.kvgHexcode, kvgHexcode) ||
-                other.kvgHexcode == kvgHexcode) &&
-            (identical(other.strokecount, strokecount) ||
-                other.strokecount == strokecount) &&
+            (identical(other.hexcode, hexcode) || other.hexcode == hexcode) &&
+            (identical(other.strokes, strokes) || other.strokes == strokes) &&
             (identical(other.number, number) || other.number == number) &&
             const DeepCollectionEquality().equals(other._meaning, _meaning) &&
             const DeepCollectionEquality().equals(other._reading, _reading) &&
@@ -631,8 +724,8 @@ class _$_TKDBRadical implements _TKDBRadical {
   int get hashCode => Object.hash(
       runtimeType,
       literal,
-      kvgHexcode,
-      strokecount,
+      hexcode,
+      strokes,
       number,
       const DeepCollectionEquality().hash(_meaning),
       const DeepCollectionEquality().hash(_reading),
@@ -655,8 +748,8 @@ class _$_TKDBRadical implements _TKDBRadical {
 abstract class _TKDBRadical implements TKDBRadical {
   const factory _TKDBRadical(
       {required final String literal,
-      required final String kvgHexcode,
-      required final int strokecount,
+      required final String hexcode,
+      required final int strokes,
       required final int number,
       required final List<String> meaning,
       required final List<String> reading,
@@ -668,9 +761,9 @@ abstract class _TKDBRadical implements TKDBRadical {
   @override
   String get literal;
   @override
-  String get kvgHexcode;
+  String get hexcode;
   @override
-  int get strokecount;
+  int get strokes;
   @override
   int get number;
   @override
@@ -693,7 +786,7 @@ TKDBKanji _$TKDBKanjiFromJson(Map<String, dynamic> json) {
 mixin _$TKDBKanji {
   String get literal => throw _privateConstructorUsedError;
   List<TKDBKanjiMeaning> get meaning => throw _privateConstructorUsedError;
-  List<TKDBKanjiReading> get reading => throw _privateConstructorUsedError;
+  TKDBKanjiReading get reading => throw _privateConstructorUsedError;
   List<TKDBKanjiPart> get part => throw _privateConstructorUsedError;
   TKDBKanjiMisc get misc => throw _privateConstructorUsedError;
 
@@ -711,10 +804,11 @@ abstract class $TKDBKanjiCopyWith<$Res> {
   $Res call(
       {String literal,
       List<TKDBKanjiMeaning> meaning,
-      List<TKDBKanjiReading> reading,
+      TKDBKanjiReading reading,
       List<TKDBKanjiPart> part,
       TKDBKanjiMisc misc});
 
+  $TKDBKanjiReadingCopyWith<$Res> get reading;
   $TKDBKanjiMiscCopyWith<$Res> get misc;
 }
 
@@ -749,7 +843,7 @@ class _$TKDBKanjiCopyWithImpl<$Res, $Val extends TKDBKanji>
       reading: null == reading
           ? _value.reading
           : reading // ignore: cast_nullable_to_non_nullable
-              as List<TKDBKanjiReading>,
+              as TKDBKanjiReading,
       part: null == part
           ? _value.part
           : part // ignore: cast_nullable_to_non_nullable
@@ -759,6 +853,14 @@ class _$TKDBKanjiCopyWithImpl<$Res, $Val extends TKDBKanji>
           : misc // ignore: cast_nullable_to_non_nullable
               as TKDBKanjiMisc,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TKDBKanjiReadingCopyWith<$Res> get reading {
+    return $TKDBKanjiReadingCopyWith<$Res>(_value.reading, (value) {
+      return _then(_value.copyWith(reading: value) as $Val);
+    });
   }
 
   @override
@@ -780,10 +882,12 @@ abstract class _$$_TKDBKanjiCopyWith<$Res> implements $TKDBKanjiCopyWith<$Res> {
   $Res call(
       {String literal,
       List<TKDBKanjiMeaning> meaning,
-      List<TKDBKanjiReading> reading,
+      TKDBKanjiReading reading,
       List<TKDBKanjiPart> part,
       TKDBKanjiMisc misc});
 
+  @override
+  $TKDBKanjiReadingCopyWith<$Res> get reading;
   @override
   $TKDBKanjiMiscCopyWith<$Res> get misc;
 }
@@ -815,9 +919,9 @@ class __$$_TKDBKanjiCopyWithImpl<$Res>
           : meaning // ignore: cast_nullable_to_non_nullable
               as List<TKDBKanjiMeaning>,
       reading: null == reading
-          ? _value._reading
+          ? _value.reading
           : reading // ignore: cast_nullable_to_non_nullable
-              as List<TKDBKanjiReading>,
+              as TKDBKanjiReading,
       part: null == part
           ? _value._part
           : part // ignore: cast_nullable_to_non_nullable
@@ -836,11 +940,10 @@ class _$_TKDBKanji implements _TKDBKanji {
   const _$_TKDBKanji(
       {required this.literal,
       required final List<TKDBKanjiMeaning> meaning,
-      required final List<TKDBKanjiReading> reading,
+      required this.reading,
       required final List<TKDBKanjiPart> part,
       required this.misc})
       : _meaning = meaning,
-        _reading = reading,
         _part = part;
 
   factory _$_TKDBKanji.fromJson(Map<String, dynamic> json) =>
@@ -856,14 +959,8 @@ class _$_TKDBKanji implements _TKDBKanji {
     return EqualUnmodifiableListView(_meaning);
   }
 
-  final List<TKDBKanjiReading> _reading;
   @override
-  List<TKDBKanjiReading> get reading {
-    if (_reading is EqualUnmodifiableListView) return _reading;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_reading);
-  }
-
+  final TKDBKanjiReading reading;
   final List<TKDBKanjiPart> _part;
   @override
   List<TKDBKanjiPart> get part {
@@ -887,7 +984,7 @@ class _$_TKDBKanji implements _TKDBKanji {
             other is _$_TKDBKanji &&
             (identical(other.literal, literal) || other.literal == literal) &&
             const DeepCollectionEquality().equals(other._meaning, _meaning) &&
-            const DeepCollectionEquality().equals(other._reading, _reading) &&
+            (identical(other.reading, reading) || other.reading == reading) &&
             const DeepCollectionEquality().equals(other._part, _part) &&
             (identical(other.misc, misc) || other.misc == misc));
   }
@@ -898,7 +995,7 @@ class _$_TKDBKanji implements _TKDBKanji {
       runtimeType,
       literal,
       const DeepCollectionEquality().hash(_meaning),
-      const DeepCollectionEquality().hash(_reading),
+      reading,
       const DeepCollectionEquality().hash(_part),
       misc);
 
@@ -920,7 +1017,7 @@ abstract class _TKDBKanji implements TKDBKanji {
   const factory _TKDBKanji(
       {required final String literal,
       required final List<TKDBKanjiMeaning> meaning,
-      required final List<TKDBKanjiReading> reading,
+      required final TKDBKanjiReading reading,
       required final List<TKDBKanjiPart> part,
       required final TKDBKanjiMisc misc}) = _$_TKDBKanji;
 
@@ -932,7 +1029,7 @@ abstract class _TKDBKanji implements TKDBKanji {
   @override
   List<TKDBKanjiMeaning> get meaning;
   @override
-  List<TKDBKanjiReading> get reading;
+  TKDBKanjiReading get reading;
   @override
   List<TKDBKanjiPart> get part;
   @override
@@ -1103,8 +1200,9 @@ TKDBKanjiReading _$TKDBKanjiReadingFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TKDBKanjiReading {
-  String get value => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
+  List<String> get on => throw _privateConstructorUsedError;
+  List<String> get kun => throw _privateConstructorUsedError;
+  List<String> get nanori => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1118,7 +1216,7 @@ abstract class $TKDBKanjiReadingCopyWith<$Res> {
           TKDBKanjiReading value, $Res Function(TKDBKanjiReading) then) =
       _$TKDBKanjiReadingCopyWithImpl<$Res, TKDBKanjiReading>;
   @useResult
-  $Res call({String value, String type});
+  $Res call({List<String> on, List<String> kun, List<String> nanori});
 }
 
 /// @nodoc
@@ -1134,18 +1232,23 @@ class _$TKDBKanjiReadingCopyWithImpl<$Res, $Val extends TKDBKanjiReading>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? value = null,
-    Object? type = null,
+    Object? on = null,
+    Object? kun = null,
+    Object? nanori = null,
   }) {
     return _then(_value.copyWith(
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
+      on: null == on
+          ? _value.on
+          : on // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      kun: null == kun
+          ? _value.kun
+          : kun // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      nanori: null == nanori
+          ? _value.nanori
+          : nanori // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -1158,7 +1261,7 @@ abstract class _$$_TKDBKanjiReadingCopyWith<$Res>
       __$$_TKDBKanjiReadingCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String value, String type});
+  $Res call({List<String> on, List<String> kun, List<String> nanori});
 }
 
 /// @nodoc
@@ -1172,18 +1275,23 @@ class __$$_TKDBKanjiReadingCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? value = null,
-    Object? type = null,
+    Object? on = null,
+    Object? kun = null,
+    Object? nanori = null,
   }) {
     return _then(_$_TKDBKanjiReading(
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
+      on: null == on
+          ? _value._on
+          : on // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      kun: null == kun
+          ? _value._kun
+          : kun // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      nanori: null == nanori
+          ? _value._nanori
+          : nanori // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -1191,19 +1299,44 @@ class __$$_TKDBKanjiReadingCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_TKDBKanjiReading implements _TKDBKanjiReading {
-  const _$_TKDBKanjiReading({required this.value, required this.type});
+  const _$_TKDBKanjiReading(
+      {required final List<String> on,
+      required final List<String> kun,
+      required final List<String> nanori})
+      : _on = on,
+        _kun = kun,
+        _nanori = nanori;
 
   factory _$_TKDBKanjiReading.fromJson(Map<String, dynamic> json) =>
       _$$_TKDBKanjiReadingFromJson(json);
 
+  final List<String> _on;
   @override
-  final String value;
+  List<String> get on {
+    if (_on is EqualUnmodifiableListView) return _on;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_on);
+  }
+
+  final List<String> _kun;
   @override
-  final String type;
+  List<String> get kun {
+    if (_kun is EqualUnmodifiableListView) return _kun;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_kun);
+  }
+
+  final List<String> _nanori;
+  @override
+  List<String> get nanori {
+    if (_nanori is EqualUnmodifiableListView) return _nanori;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_nanori);
+  }
 
   @override
   String toString() {
-    return 'TKDBKanjiReading(value: $value, type: $type)';
+    return 'TKDBKanjiReading(on: $on, kun: $kun, nanori: $nanori)';
   }
 
   @override
@@ -1211,13 +1344,18 @@ class _$_TKDBKanjiReading implements _TKDBKanjiReading {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_TKDBKanjiReading &&
-            (identical(other.value, value) || other.value == value) &&
-            (identical(other.type, type) || other.type == type));
+            const DeepCollectionEquality().equals(other._on, _on) &&
+            const DeepCollectionEquality().equals(other._kun, _kun) &&
+            const DeepCollectionEquality().equals(other._nanori, _nanori));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, value, type);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_on),
+      const DeepCollectionEquality().hash(_kun),
+      const DeepCollectionEquality().hash(_nanori));
 
   @JsonKey(ignore: true)
   @override
@@ -1235,16 +1373,19 @@ class _$_TKDBKanjiReading implements _TKDBKanjiReading {
 
 abstract class _TKDBKanjiReading implements TKDBKanjiReading {
   const factory _TKDBKanjiReading(
-      {required final String value,
-      required final String type}) = _$_TKDBKanjiReading;
+      {required final List<String> on,
+      required final List<String> kun,
+      required final List<String> nanori}) = _$_TKDBKanjiReading;
 
   factory _TKDBKanjiReading.fromJson(Map<String, dynamic> json) =
       _$_TKDBKanjiReading.fromJson;
 
   @override
-  String get value;
+  List<String> get on;
   @override
-  String get type;
+  List<String> get kun;
+  @override
+  List<String> get nanori;
   @override
   @JsonKey(ignore: true)
   _$$_TKDBKanjiReadingCopyWith<_$_TKDBKanjiReading> get copyWith =>
@@ -1411,7 +1552,18 @@ TKDBKanjiMisc _$TKDBKanjiMiscFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TKDBKanjiMisc {
-  String get kvgHexcode => throw _privateConstructorUsedError;
+  String get hexcode => throw _privateConstructorUsedError;
+  Map<String, String> get codepoint => throw _privateConstructorUsedError;
+  Map<String, String> get querycode => throw _privateConstructorUsedError;
+  Map<String, String> get dicref => throw _privateConstructorUsedError;
+  List<String> get lookalike => throw _privateConstructorUsedError;
+  List<String> get antonym => throw _privateConstructorUsedError;
+  List<String> get synonym => throw _privateConstructorUsedError;
+  List<String> get variant => throw _privateConstructorUsedError;
+  String? get jlpt => throw _privateConstructorUsedError;
+  String? get grade => throw _privateConstructorUsedError;
+  int? get strokes => throw _privateConstructorUsedError;
+  int? get frequencyJ => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1425,7 +1577,19 @@ abstract class $TKDBKanjiMiscCopyWith<$Res> {
           TKDBKanjiMisc value, $Res Function(TKDBKanjiMisc) then) =
       _$TKDBKanjiMiscCopyWithImpl<$Res, TKDBKanjiMisc>;
   @useResult
-  $Res call({String kvgHexcode});
+  $Res call(
+      {String hexcode,
+      Map<String, String> codepoint,
+      Map<String, String> querycode,
+      Map<String, String> dicref,
+      List<String> lookalike,
+      List<String> antonym,
+      List<String> synonym,
+      List<String> variant,
+      String? jlpt,
+      String? grade,
+      int? strokes,
+      int? frequencyJ});
 }
 
 /// @nodoc
@@ -1441,13 +1605,68 @@ class _$TKDBKanjiMiscCopyWithImpl<$Res, $Val extends TKDBKanjiMisc>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? kvgHexcode = null,
+    Object? hexcode = null,
+    Object? codepoint = null,
+    Object? querycode = null,
+    Object? dicref = null,
+    Object? lookalike = null,
+    Object? antonym = null,
+    Object? synonym = null,
+    Object? variant = null,
+    Object? jlpt = freezed,
+    Object? grade = freezed,
+    Object? strokes = freezed,
+    Object? frequencyJ = freezed,
   }) {
     return _then(_value.copyWith(
-      kvgHexcode: null == kvgHexcode
-          ? _value.kvgHexcode
-          : kvgHexcode // ignore: cast_nullable_to_non_nullable
+      hexcode: null == hexcode
+          ? _value.hexcode
+          : hexcode // ignore: cast_nullable_to_non_nullable
               as String,
+      codepoint: null == codepoint
+          ? _value.codepoint
+          : codepoint // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      querycode: null == querycode
+          ? _value.querycode
+          : querycode // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      dicref: null == dicref
+          ? _value.dicref
+          : dicref // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      lookalike: null == lookalike
+          ? _value.lookalike
+          : lookalike // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      antonym: null == antonym
+          ? _value.antonym
+          : antonym // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      synonym: null == synonym
+          ? _value.synonym
+          : synonym // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      variant: null == variant
+          ? _value.variant
+          : variant // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      jlpt: freezed == jlpt
+          ? _value.jlpt
+          : jlpt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      grade: freezed == grade
+          ? _value.grade
+          : grade // ignore: cast_nullable_to_non_nullable
+              as String?,
+      strokes: freezed == strokes
+          ? _value.strokes
+          : strokes // ignore: cast_nullable_to_non_nullable
+              as int?,
+      frequencyJ: freezed == frequencyJ
+          ? _value.frequencyJ
+          : frequencyJ // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -1460,7 +1679,19 @@ abstract class _$$_TKDBKanjiMiscCopyWith<$Res>
       __$$_TKDBKanjiMiscCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String kvgHexcode});
+  $Res call(
+      {String hexcode,
+      Map<String, String> codepoint,
+      Map<String, String> querycode,
+      Map<String, String> dicref,
+      List<String> lookalike,
+      List<String> antonym,
+      List<String> synonym,
+      List<String> variant,
+      String? jlpt,
+      String? grade,
+      int? strokes,
+      int? frequencyJ});
 }
 
 /// @nodoc
@@ -1474,13 +1705,68 @@ class __$$_TKDBKanjiMiscCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? kvgHexcode = null,
+    Object? hexcode = null,
+    Object? codepoint = null,
+    Object? querycode = null,
+    Object? dicref = null,
+    Object? lookalike = null,
+    Object? antonym = null,
+    Object? synonym = null,
+    Object? variant = null,
+    Object? jlpt = freezed,
+    Object? grade = freezed,
+    Object? strokes = freezed,
+    Object? frequencyJ = freezed,
   }) {
     return _then(_$_TKDBKanjiMisc(
-      kvgHexcode: null == kvgHexcode
-          ? _value.kvgHexcode
-          : kvgHexcode // ignore: cast_nullable_to_non_nullable
+      hexcode: null == hexcode
+          ? _value.hexcode
+          : hexcode // ignore: cast_nullable_to_non_nullable
               as String,
+      codepoint: null == codepoint
+          ? _value._codepoint
+          : codepoint // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      querycode: null == querycode
+          ? _value._querycode
+          : querycode // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      dicref: null == dicref
+          ? _value._dicref
+          : dicref // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      lookalike: null == lookalike
+          ? _value._lookalike
+          : lookalike // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      antonym: null == antonym
+          ? _value._antonym
+          : antonym // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      synonym: null == synonym
+          ? _value._synonym
+          : synonym // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      variant: null == variant
+          ? _value._variant
+          : variant // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      jlpt: freezed == jlpt
+          ? _value.jlpt
+          : jlpt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      grade: freezed == grade
+          ? _value.grade
+          : grade // ignore: cast_nullable_to_non_nullable
+              as String?,
+      strokes: freezed == strokes
+          ? _value.strokes
+          : strokes // ignore: cast_nullable_to_non_nullable
+              as int?,
+      frequencyJ: freezed == frequencyJ
+          ? _value.frequencyJ
+          : frequencyJ // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -1488,17 +1774,100 @@ class __$$_TKDBKanjiMiscCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_TKDBKanjiMisc implements _TKDBKanjiMisc {
-  const _$_TKDBKanjiMisc({required this.kvgHexcode});
+  const _$_TKDBKanjiMisc(
+      {required this.hexcode,
+      required final Map<String, String> codepoint,
+      required final Map<String, String> querycode,
+      required final Map<String, String> dicref,
+      required final List<String> lookalike,
+      required final List<String> antonym,
+      required final List<String> synonym,
+      required final List<String> variant,
+      this.jlpt,
+      this.grade,
+      this.strokes,
+      this.frequencyJ})
+      : _codepoint = codepoint,
+        _querycode = querycode,
+        _dicref = dicref,
+        _lookalike = lookalike,
+        _antonym = antonym,
+        _synonym = synonym,
+        _variant = variant;
 
   factory _$_TKDBKanjiMisc.fromJson(Map<String, dynamic> json) =>
       _$$_TKDBKanjiMiscFromJson(json);
 
   @override
-  final String kvgHexcode;
+  final String hexcode;
+  final Map<String, String> _codepoint;
+  @override
+  Map<String, String> get codepoint {
+    if (_codepoint is EqualUnmodifiableMapView) return _codepoint;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_codepoint);
+  }
+
+  final Map<String, String> _querycode;
+  @override
+  Map<String, String> get querycode {
+    if (_querycode is EqualUnmodifiableMapView) return _querycode;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_querycode);
+  }
+
+  final Map<String, String> _dicref;
+  @override
+  Map<String, String> get dicref {
+    if (_dicref is EqualUnmodifiableMapView) return _dicref;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_dicref);
+  }
+
+  final List<String> _lookalike;
+  @override
+  List<String> get lookalike {
+    if (_lookalike is EqualUnmodifiableListView) return _lookalike;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_lookalike);
+  }
+
+  final List<String> _antonym;
+  @override
+  List<String> get antonym {
+    if (_antonym is EqualUnmodifiableListView) return _antonym;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_antonym);
+  }
+
+  final List<String> _synonym;
+  @override
+  List<String> get synonym {
+    if (_synonym is EqualUnmodifiableListView) return _synonym;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_synonym);
+  }
+
+  final List<String> _variant;
+  @override
+  List<String> get variant {
+    if (_variant is EqualUnmodifiableListView) return _variant;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_variant);
+  }
+
+  @override
+  final String? jlpt;
+  @override
+  final String? grade;
+  @override
+  final int? strokes;
+  @override
+  final int? frequencyJ;
 
   @override
   String toString() {
-    return 'TKDBKanjiMisc(kvgHexcode: $kvgHexcode)';
+    return 'TKDBKanjiMisc(hexcode: $hexcode, codepoint: $codepoint, querycode: $querycode, dicref: $dicref, lookalike: $lookalike, antonym: $antonym, synonym: $synonym, variant: $variant, jlpt: $jlpt, grade: $grade, strokes: $strokes, frequencyJ: $frequencyJ)';
   }
 
   @override
@@ -1506,13 +1875,40 @@ class _$_TKDBKanjiMisc implements _TKDBKanjiMisc {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_TKDBKanjiMisc &&
-            (identical(other.kvgHexcode, kvgHexcode) ||
-                other.kvgHexcode == kvgHexcode));
+            (identical(other.hexcode, hexcode) || other.hexcode == hexcode) &&
+            const DeepCollectionEquality()
+                .equals(other._codepoint, _codepoint) &&
+            const DeepCollectionEquality()
+                .equals(other._querycode, _querycode) &&
+            const DeepCollectionEquality().equals(other._dicref, _dicref) &&
+            const DeepCollectionEquality()
+                .equals(other._lookalike, _lookalike) &&
+            const DeepCollectionEquality().equals(other._antonym, _antonym) &&
+            const DeepCollectionEquality().equals(other._synonym, _synonym) &&
+            const DeepCollectionEquality().equals(other._variant, _variant) &&
+            (identical(other.jlpt, jlpt) || other.jlpt == jlpt) &&
+            (identical(other.grade, grade) || other.grade == grade) &&
+            (identical(other.strokes, strokes) || other.strokes == strokes) &&
+            (identical(other.frequencyJ, frequencyJ) ||
+                other.frequencyJ == frequencyJ));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, kvgHexcode);
+  int get hashCode => Object.hash(
+      runtimeType,
+      hexcode,
+      const DeepCollectionEquality().hash(_codepoint),
+      const DeepCollectionEquality().hash(_querycode),
+      const DeepCollectionEquality().hash(_dicref),
+      const DeepCollectionEquality().hash(_lookalike),
+      const DeepCollectionEquality().hash(_antonym),
+      const DeepCollectionEquality().hash(_synonym),
+      const DeepCollectionEquality().hash(_variant),
+      jlpt,
+      grade,
+      strokes,
+      frequencyJ);
 
   @JsonKey(ignore: true)
   @override
@@ -1529,14 +1925,47 @@ class _$_TKDBKanjiMisc implements _TKDBKanjiMisc {
 }
 
 abstract class _TKDBKanjiMisc implements TKDBKanjiMisc {
-  const factory _TKDBKanjiMisc({required final String kvgHexcode}) =
-      _$_TKDBKanjiMisc;
+  const factory _TKDBKanjiMisc(
+      {required final String hexcode,
+      required final Map<String, String> codepoint,
+      required final Map<String, String> querycode,
+      required final Map<String, String> dicref,
+      required final List<String> lookalike,
+      required final List<String> antonym,
+      required final List<String> synonym,
+      required final List<String> variant,
+      final String? jlpt,
+      final String? grade,
+      final int? strokes,
+      final int? frequencyJ}) = _$_TKDBKanjiMisc;
 
   factory _TKDBKanjiMisc.fromJson(Map<String, dynamic> json) =
       _$_TKDBKanjiMisc.fromJson;
 
   @override
-  String get kvgHexcode;
+  String get hexcode;
+  @override
+  Map<String, String> get codepoint;
+  @override
+  Map<String, String> get querycode;
+  @override
+  Map<String, String> get dicref;
+  @override
+  List<String> get lookalike;
+  @override
+  List<String> get antonym;
+  @override
+  List<String> get synonym;
+  @override
+  List<String> get variant;
+  @override
+  String? get jlpt;
+  @override
+  String? get grade;
+  @override
+  int? get strokes;
+  @override
+  int? get frequencyJ;
   @override
   @JsonKey(ignore: true)
   _$$_TKDBKanjiMiscCopyWith<_$_TKDBKanjiMisc> get copyWith =>

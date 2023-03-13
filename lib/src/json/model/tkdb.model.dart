@@ -10,7 +10,7 @@ class TKDB with _$TKDB {
     required String dateOfCreation,
     required List<TKDBRadical> radicals,
     required List<TKDBKanji> kanji,
-    required TKDBTag tags,
+    required TKDBKeyword keywords,
   }) = _TKDB;
 
   factory TKDB.fromJson(Map<String, Object?> json) => _$TKDBFromJson(json);
@@ -21,13 +21,16 @@ class TKDB with _$TKDB {
 //
 
 @freezed
-class TKDBTag with _$TKDBTag {
-  const factory TKDBTag({
+class TKDBKeyword with _$TKDBKeyword {
+  const factory TKDBKeyword({
+    required Map<String, String> jlpt,
+    required Map<String, String> lang,
+    required Map<String, String> kanjiGrade,
     required Map<String, String> kanjiReadingType,
-  }) = _TKDBTag;
+  }) = _TKDBKeyword;
 
-  factory TKDBTag.fromJson(Map<String, Object?> json) =>
-      _$TKDBTagFromJson(json);
+  factory TKDBKeyword.fromJson(Map<String, Object?> json) =>
+      _$TKDBKeywordFromJson(json);
 }
 
 //
@@ -38,8 +41,8 @@ class TKDBTag with _$TKDBTag {
 class TKDBRadical with _$TKDBRadical {
   const factory TKDBRadical({
     required String literal,
-    required String kvgHexcode,
-    required int strokecount,
+    required String hexcode,
+    required int strokes,
     required int number,
     required List<String> meaning,
     required List<String> reading,
@@ -59,7 +62,7 @@ class TKDBKanji with _$TKDBKanji {
   const factory TKDBKanji({
     required String literal,
     required List<TKDBKanjiMeaning> meaning,
-    required List<TKDBKanjiReading> reading,
+    required TKDBKanjiReading reading,
     required List<TKDBKanjiPart> part,
     required TKDBKanjiMisc misc,
   }) = _TKDBKanji;
@@ -82,8 +85,9 @@ class TKDBKanjiMeaning with _$TKDBKanjiMeaning {
 @freezed
 class TKDBKanjiReading with _$TKDBKanjiReading {
   const factory TKDBKanjiReading({
-    required String value,
-    required String type,
+    required List<String> on,
+    required List<String> kun,
+    required List<String> nanori,
   }) = _TKDBKanjiReading;
 
   factory TKDBKanjiReading.fromJson(Map<String, Object?> json) =>
@@ -113,7 +117,18 @@ enum TKDBKanjiPartType {
 @freezed
 class TKDBKanjiMisc with _$TKDBKanjiMisc {
   const factory TKDBKanjiMisc({
-    required String kvgHexcode,
+    required String hexcode,
+    required Map<String, String> codepoint,
+    required Map<String, String> querycode,
+    required Map<String, String> dicref,
+    required List<String> lookalike,
+    required List<String> antonym,
+    required List<String> synonym,
+    required List<String> variant,
+    String? jlpt,
+    String? grade,
+    int? strokes,
+    int? frequencyJ,
   }) = _TKDBKanjiMisc;
 
   factory TKDBKanjiMisc.fromJson(Map<String, Object?> json) =>

@@ -15,7 +15,7 @@ _$_TKDB _$$_TKDBFromJson(Map<String, dynamic> json) => _$_TKDB(
       kanji: (json['kanji'] as List<dynamic>)
           .map((e) => TKDBKanji.fromJson(e as Map<String, dynamic>))
           .toList(),
-      tags: TKDBTag.fromJson(json['tags'] as Map<String, dynamic>),
+      keywords: TKDBKeyword.fromJson(json['keywords'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_TKDBToJson(_$_TKDB instance) => <String, dynamic>{
@@ -23,24 +23,31 @@ Map<String, dynamic> _$$_TKDBToJson(_$_TKDB instance) => <String, dynamic>{
       'dateOfCreation': instance.dateOfCreation,
       'radicals': instance.radicals,
       'kanji': instance.kanji,
-      'tags': instance.tags,
+      'keywords': instance.keywords,
     };
 
-_$_TKDBTag _$$_TKDBTagFromJson(Map<String, dynamic> json) => _$_TKDBTag(
+_$_TKDBKeyword _$$_TKDBKeywordFromJson(Map<String, dynamic> json) =>
+    _$_TKDBKeyword(
+      jlpt: Map<String, String>.from(json['jlpt'] as Map),
+      lang: Map<String, String>.from(json['lang'] as Map),
+      kanjiGrade: Map<String, String>.from(json['kanjiGrade'] as Map),
       kanjiReadingType:
           Map<String, String>.from(json['kanjiReadingType'] as Map),
     );
 
-Map<String, dynamic> _$$_TKDBTagToJson(_$_TKDBTag instance) =>
+Map<String, dynamic> _$$_TKDBKeywordToJson(_$_TKDBKeyword instance) =>
     <String, dynamic>{
+      'jlpt': instance.jlpt,
+      'lang': instance.lang,
+      'kanjiGrade': instance.kanjiGrade,
       'kanjiReadingType': instance.kanjiReadingType,
     };
 
 _$_TKDBRadical _$$_TKDBRadicalFromJson(Map<String, dynamic> json) =>
     _$_TKDBRadical(
       literal: json['literal'] as String,
-      kvgHexcode: json['kvgHexcode'] as String,
-      strokecount: json['strokecount'] as int,
+      hexcode: json['hexcode'] as String,
+      strokes: json['strokes'] as int,
       number: json['number'] as int,
       meaning:
           (json['meaning'] as List<dynamic>).map((e) => e as String).toList(),
@@ -52,8 +59,8 @@ _$_TKDBRadical _$$_TKDBRadicalFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_TKDBRadicalToJson(_$_TKDBRadical instance) =>
     <String, dynamic>{
       'literal': instance.literal,
-      'kvgHexcode': instance.kvgHexcode,
-      'strokecount': instance.strokecount,
+      'hexcode': instance.hexcode,
+      'strokes': instance.strokes,
       'number': instance.number,
       'meaning': instance.meaning,
       'reading': instance.reading,
@@ -65,9 +72,8 @@ _$_TKDBKanji _$$_TKDBKanjiFromJson(Map<String, dynamic> json) => _$_TKDBKanji(
       meaning: (json['meaning'] as List<dynamic>)
           .map((e) => TKDBKanjiMeaning.fromJson(e as Map<String, dynamic>))
           .toList(),
-      reading: (json['reading'] as List<dynamic>)
-          .map((e) => TKDBKanjiReading.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      reading:
+          TKDBKanjiReading.fromJson(json['reading'] as Map<String, dynamic>),
       part: (json['part'] as List<dynamic>)
           .map((e) => TKDBKanjiPart.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -97,14 +103,17 @@ Map<String, dynamic> _$$_TKDBKanjiMeaningToJson(_$_TKDBKanjiMeaning instance) =>
 
 _$_TKDBKanjiReading _$$_TKDBKanjiReadingFromJson(Map<String, dynamic> json) =>
     _$_TKDBKanjiReading(
-      value: json['value'] as String,
-      type: json['type'] as String,
+      on: (json['on'] as List<dynamic>).map((e) => e as String).toList(),
+      kun: (json['kun'] as List<dynamic>).map((e) => e as String).toList(),
+      nanori:
+          (json['nanori'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$_TKDBKanjiReadingToJson(_$_TKDBKanjiReading instance) =>
     <String, dynamic>{
-      'value': instance.value,
-      'type': instance.type,
+      'on': instance.on,
+      'kun': instance.kun,
+      'nanori': instance.nanori,
     };
 
 _$_TKDBKanjiPart _$$_TKDBKanjiPartFromJson(Map<String, dynamic> json) =>
@@ -127,10 +136,36 @@ const _$TKDBKanjiPartTypeEnumMap = {
 
 _$_TKDBKanjiMisc _$$_TKDBKanjiMiscFromJson(Map<String, dynamic> json) =>
     _$_TKDBKanjiMisc(
-      kvgHexcode: json['kvgHexcode'] as String,
+      hexcode: json['hexcode'] as String,
+      codepoint: Map<String, String>.from(json['codepoint'] as Map),
+      querycode: Map<String, String>.from(json['querycode'] as Map),
+      dicref: Map<String, String>.from(json['dicref'] as Map),
+      lookalike:
+          (json['lookalike'] as List<dynamic>).map((e) => e as String).toList(),
+      antonym:
+          (json['antonym'] as List<dynamic>).map((e) => e as String).toList(),
+      synonym:
+          (json['synonym'] as List<dynamic>).map((e) => e as String).toList(),
+      variant:
+          (json['variant'] as List<dynamic>).map((e) => e as String).toList(),
+      jlpt: json['jlpt'] as String?,
+      grade: json['grade'] as String?,
+      strokes: json['strokes'] as int?,
+      frequencyJ: json['frequencyJ'] as int?,
     );
 
 Map<String, dynamic> _$$_TKDBKanjiMiscToJson(_$_TKDBKanjiMisc instance) =>
     <String, dynamic>{
-      'kvgHexcode': instance.kvgHexcode,
+      'hexcode': instance.hexcode,
+      'codepoint': instance.codepoint,
+      'querycode': instance.querycode,
+      'dicref': instance.dicref,
+      'lookalike': instance.lookalike,
+      'antonym': instance.antonym,
+      'synonym': instance.synonym,
+      'variant': instance.variant,
+      'jlpt': instance.jlpt,
+      'grade': instance.grade,
+      'strokes': instance.strokes,
+      'frequencyJ': instance.frequencyJ,
     };

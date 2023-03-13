@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:drift/drift.dart';
+import 'package:console_bars/console_bars.dart';
 
 import '../json/model/tkdb.model.dart';
 import 'model/sqlite.model.dart';
@@ -14,7 +14,7 @@ class TKDBDriftMapper {
   });
 
   Future<void> upsertTKDB() async {
-    await _upsertTags(tkdbJson.tags);
+    await _upsertKeywords(tkdbJson.keywords);
     await _upsertRadicals(tkdbJson.radicals);
     await _upsertKanjis(tkdbJson.kanji);
   }
@@ -23,17 +23,59 @@ class TKDBDriftMapper {
   // Tags
   //
 
-  Future<void> _upsertTags(TKDBTag tags) async {
-    await _upsertTagKanjiReadingType(tags.kanjiReadingType);
+  Future<void> _upsertKeywords(TKDBKeyword keywords) async {
+    await _upsertJLPTs(keywords.jlpt);
+    await _upsertLangs(keywords.lang);
+    await _upsertKanjiReadingTypes(keywords.kanjiReadingType);
+    await _upsertKanjiGrades(keywords.kanjiGrade);
   }
 
-  Future<void> _upsertTagKanjiReadingType(Map<String, String> tag) async {
-    for (final key in tag.keys) {
-      final descr = tag[key];
+  Future<void> _upsertJLPTs(Map<String, String> jlpt) async {
+    for (final key in jlpt.keys) {
+      final descr = jlpt[key];
       if (descr != null) {
-        final entry = KanjiReadingTypesCompanion(
-          kanjiReadingTypeId: Value(key),
-          descr: Value(descr),
+        final entry = JlptLevel(
+          jlptId: key,
+          descr: descr,
+        );
+        await database.into(database.jlptLevels).insertOnConflictUpdate(entry);
+      }
+    }
+  }
+
+  Future<void> _upsertLangs(Map<String, String> lang) async {
+    for (final key in lang.keys) {
+      final descr = lang[key];
+      if (descr != null) {
+        final entry = Lang(
+          langId: key,
+          englishName: descr,
+        );
+        await database.into(database.langs).insertOnConflictUpdate(entry);
+      }
+    }
+  }
+
+  Future<void> _upsertKanjiGrades(Map<String, String> grade) async {
+    for (final key in grade.keys) {
+      final descr = grade[key];
+      if (descr != null) {
+        final entry = KanjiGrade(
+          kanjiGradeId: key,
+          descr: descr,
+        );
+        await database.into(database.kanjiGrades).insertOnConflictUpdate(entry);
+      }
+    }
+  }
+
+  Future<void> _upsertKanjiReadingTypes(Map<String, String> type) async {
+    for (final key in type.keys) {
+      final descr = type[key];
+      if (descr != null) {
+        final entry = KanjiReadingType(
+          kanjiReadingTypeId: key,
+          descr: descr,
         );
         await database
             .into(database.kanjiReadingTypes)
@@ -47,32 +89,37 @@ class TKDBDriftMapper {
   //
 
   Future<void> _upsertRadicals(List<TKDBRadical> radicals) async {
+    final p = FillingBar(
+        desc: "Radicals", total: radicals.length, time: true, percentage: true);
+
     for (final radical in radicals) {
       final variantOf = radicals
           .firstWhereOrNull((r) => r.literal == radical.variantOf)
-          ?.kvgHexcode;
+          ?.literal;
 
-      final entry = RadicalsCompanion(
-        radicalId: Value(radical.kvgHexcode),
-        literal: Value(radical.literal),
-        number: Value(radical.number),
-        strokes: Value(radical.strokecount),
-        variantOf: Value(variantOf),
+      final entry = Radical(
+        radicalId: radical.literal,
+        hexcode: radical.hexcode,
+        number: radical.number,
+        strokes: radical.strokes,
+        variantOf: variantOf,
       );
       await database.into(database.radicals).insertOnConflictUpdate(entry);
 
       await _upsertRadicalMeanings(radical);
       await _upsertRadicalReadings(radical);
+
+      p.increment();
     }
   }
 
   Future<void> _upsertRadicalMeanings(TKDBRadical radical) async {
     int position = 0;
     for (final meaning in radical.meaning) {
-      final entry = RadicalMeaningsCompanion(
-        radicalId: Value(radical.kvgHexcode),
-        position: Value(position),
-        value: Value(meaning),
+      final entry = RadicalMeaning(
+        radicalId: radical.literal,
+        position: position,
+        value: meaning,
       );
 
       await database
@@ -85,10 +132,10 @@ class TKDBDriftMapper {
   Future<void> _upsertRadicalReadings(TKDBRadical radical) async {
     int position = 0;
     for (final reading in radical.reading) {
-      final entry = RadicalReadingsCompanion(
-        radicalId: Value(radical.kvgHexcode),
-        position: Value(position),
-        value: Value(reading),
+      final entry = RadicalReading(
+        radicalId: radical.literal,
+        position: position,
+        value: reading,
       );
 
       await database
@@ -103,56 +150,174 @@ class TKDBDriftMapper {
   //
 
   Future<void> _upsertKanjis(List<TKDBKanji> kanjis) async {
-    for (final kanji in kanjis) {
-      final kanjiId = kanji.misc.kvgHexcode;
+    final p = FillingBar(
+        desc: "Kanjis", total: kanjis.length, time: true, percentage: true);
 
-      final entry = KanjisCompanion(
-        kanjiId: Value(kanjiId),
-        literal: Value(kanji.literal),
+    for (final kanji in kanjis) {
+      final kanjiId = kanji.literal;
+      final hexcode = kanji.misc.hexcode;
+      final strokes = kanji.misc.strokes;
+      final frequencyJ = kanji.misc.frequencyJ;
+
+      final jlpt = await (database.select(database.jlptLevels)
+            ..where((t) => t.jlptId.equals(kanji.misc.jlpt ?? '')))
+          .getSingleOrNull();
+      final jlptId = jlpt?.jlptId;
+
+      final kanjiGrade = await (database.select(database.kanjiGrades)
+            ..where((t) => t.kanjiGradeId.equals(kanji.misc.grade ?? '')))
+          .getSingleOrNull();
+      final kanjiGradeId = kanjiGrade?.kanjiGradeId;
+
+      final entry = Kanji(
+        kanjiId: kanjiId,
+        hexcode: hexcode,
+        strokes: strokes,
+        frequencyJ: frequencyJ,
+        jlptId: jlptId,
+        kanjiGradeId: kanjiGradeId,
       );
 
       await database.into(database.kanjis).insertOnConflictUpdate(entry);
-      await _upsertKanjiReadings(kanjiId, kanji.reading);
+      await _upsertKanjiReading(kanjiId, kanji.reading);
+      await _upsertKanjiMeaning(kanjiId, kanji.meaning);
+      await _upsertKanjiAntonym(kanjiId, kanji.misc.antonym);
+      await _upsertKanjiSynonym(kanjiId, kanji.misc.synonym);
+      await _upsertKanjiLookalike(kanjiId, kanji.misc.lookalike);
+      await _upsertKanjiVariant(kanjiId, kanji.misc.variant);
+      await _upsertKanjiPart(kanjiId, kanji.part);
+
+      p.increment();
     }
   }
 
-  Future<void> _upsertKanjiReadings(
-      String kanjiId, List<TKDBKanjiReading> readings) async {
-    Map<String, int> position = {};
+  Future<void> _upsertKanjiReading(
+      String kanjiId, TKDBKanjiReading reading) async {
+    final readingTypes =
+        await (database.select(database.kanjiReadingTypes)).get();
+    final kunReadingTypeId = readingTypes
+        .firstWhere((element) => element.kanjiReadingTypeId == 'kun')
+        .kanjiReadingTypeId;
+    final onReadingTypeId = readingTypes
+        .firstWhere((element) => element.kanjiReadingTypeId == 'on')
+        .kanjiReadingTypeId;
 
-    for (final reading in readings) {
-      final kanjiReadingTypeEntry =
-          await (database.select(database.kanjiReadingTypes)
-                ..where((t) => t.kanjiReadingTypeId.equals(reading.type)))
-              .getSingleOrNull();
+    int kunReadingPosition = 0;
+    for (final kunReading in reading.kun) {
+      final entry = KanjiReading(
+        kanjiId: kanjiId,
+        kanjiReadingTypeId: kunReadingTypeId,
+        position: kunReadingPosition,
+        value: kunReading,
+      );
 
-      if (kanjiReadingTypeEntry != null) {
-        if (kanjiId == '09a13') {
-          print(reading);
-        }
+      await database.into(database.kanjiReadings).insertOnConflictUpdate(entry);
 
-        final kanjiReadingTypeId = kanjiReadingTypeEntry.kanjiReadingTypeId;
+      ++kunReadingPosition;
+    }
 
-        int typePosition = position[kanjiReadingTypeId] ?? 0;
+    int onReadingPosition = 0;
+    for (final onReading in reading.on) {
+      final entry = KanjiReading(
+        kanjiId: kanjiId,
+        kanjiReadingTypeId: onReadingTypeId,
+        position: onReadingPosition,
+        value: onReading,
+      );
 
-        final entry = KanjiReadingsCompanion(
-          kanjiId: Value(kanjiId),
-          kanjiReadingTypeId: Value(kanjiReadingTypeId),
-          position: Value(typePosition),
-          value: Value(reading.value),
-        );
+      await database.into(database.kanjiReadings).insertOnConflictUpdate(entry);
 
-        await database
-            .into(database.kanjiReadings)
-            .insertOnConflictUpdate(entry);
+      ++onReadingPosition;
+    }
+  }
 
-        typePosition++;
-        position.update(
-          kanjiReadingTypeId,
-          (value) => typePosition,
-          ifAbsent: () => typePosition,
-        );
-      }
+  Future<void> _upsertKanjiMeaning(
+      String kanjiId, List<TKDBKanjiMeaning> meanings) async {
+    final languages = await (database.select(database.langs)).get();
+
+    int position = 0;
+    for (final meaning in meanings) {
+      final lang =
+          languages.firstWhere((element) => element.langId == meaning.lang);
+      final langId = lang.langId;
+
+      final entry = KanjiMeaning(
+        kanjiId: kanjiId,
+        langId: langId,
+        position: position,
+        value: meaning.value,
+      );
+      await database.into(database.kanjiMeanings).insertOnConflictUpdate(entry);
+
+      position++;
+    }
+  }
+
+  Future<void> _upsertKanjiPart(
+      String kanjiId, List<TKDBKanjiPart> parts) async {
+    int position = 0;
+    for (final part in parts) {
+      final partRadicalId =
+          part.type == TKDBKanjiPartType.radical ? part.literal : null;
+      final partKanjiId =
+          part.type == TKDBKanjiPartType.kanji ? part.literal : null;
+      final partComponent =
+          part.type == TKDBKanjiPartType.component ? part.literal : null;
+      final entry = KanjiPart(
+        kanjiId: kanjiId,
+        position: position,
+        partComponent: partComponent,
+        partKanjiId: partKanjiId,
+        partRadicalId: partRadicalId,
+      );
+      await database.into(database.kanjiParts).insertOnConflictUpdate(entry);
+      position++;
+    }
+  }
+
+  Future<void> _upsertKanjiAntonym(
+      String kanjiId, List<String> antonyms) async {
+    for (final antonym in antonyms) {
+      final entry = KanjiAntonym(
+        kanjiId: kanjiId,
+        antonymKanjiId: antonym,
+      );
+      await database.into(database.kanjiAntonyms).insertOnConflictUpdate(entry);
+    }
+  }
+
+  Future<void> _upsertKanjiSynonym(
+      String kanjiId, List<String> synonyms) async {
+    for (final synonym in synonyms) {
+      final entry = KanjiSynonym(
+        kanjiId: kanjiId,
+        synonymKanjiId: synonym,
+      );
+      await database.into(database.kanjiSynonyms).insertOnConflictUpdate(entry);
+    }
+  }
+
+  Future<void> _upsertKanjiLookalike(
+      String kanjiId, List<String> lookalikes) async {
+    for (final lookalike in lookalikes) {
+      final entry = KanjiLookalike(
+        kanjiId: kanjiId,
+        lookalikeKanjiId: lookalike,
+      );
+      await database
+          .into(database.kanjiLookalikes)
+          .insertOnConflictUpdate(entry);
+    }
+  }
+
+  Future<void> _upsertKanjiVariant(
+      String kanjiId, List<String> variants) async {
+    for (final variant in variants) {
+      final entry = KanjiVariant(
+        kanjiId: kanjiId,
+        variantKanjiId: variant,
+      );
+      await database.into(database.kanjiVariants).insertOnConflictUpdate(entry);
     }
   }
 }
