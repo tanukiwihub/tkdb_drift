@@ -1,0 +1,1 @@
+CREATE VIRTUAL TABLE search_kanji USING fts5(kanjiId, kanjiOnReadings, kanjiKunReadings, kanjiMeanings, kanjiFrequency UNINDEXED);

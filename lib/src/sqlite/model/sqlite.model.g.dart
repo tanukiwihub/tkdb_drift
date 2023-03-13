@@ -3,6 +3,322 @@
 part of 'sqlite.model.dart';
 
 // ignore_for_file: type=lint
+class SearchKanji extends Table
+    with
+        TableInfo<SearchKanji, SearchKanjiData>,
+        VirtualTableInfo<SearchKanji, SearchKanjiData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  SearchKanji(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _kanjiIdMeta =
+      const VerificationMeta('kanjiId');
+  late final GeneratedColumn<String> kanjiId = GeneratedColumn<String>(
+      'kanjiId', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: '');
+  static const VerificationMeta _kanjiOnReadingsMeta =
+      const VerificationMeta('kanjiOnReadings');
+  late final GeneratedColumn<String> kanjiOnReadings = GeneratedColumn<String>(
+      'kanjiOnReadings', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: '');
+  static const VerificationMeta _kanjiKunReadingsMeta =
+      const VerificationMeta('kanjiKunReadings');
+  late final GeneratedColumn<String> kanjiKunReadings = GeneratedColumn<String>(
+      'kanjiKunReadings', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: '');
+  static const VerificationMeta _kanjiMeaningsMeta =
+      const VerificationMeta('kanjiMeanings');
+  late final GeneratedColumn<String> kanjiMeanings = GeneratedColumn<String>(
+      'kanjiMeanings', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: '');
+  static const VerificationMeta _kanjiFrequencyMeta =
+      const VerificationMeta('kanjiFrequency');
+  late final GeneratedColumn<String> kanjiFrequency = GeneratedColumn<String>(
+      'kanjiFrequency', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: '');
+  @override
+  List<GeneratedColumn> get $columns => [
+        kanjiId,
+        kanjiOnReadings,
+        kanjiKunReadings,
+        kanjiMeanings,
+        kanjiFrequency
+      ];
+  @override
+  String get aliasedName => _alias ?? 'search_kanji';
+  @override
+  String get actualTableName => 'search_kanji';
+  @override
+  VerificationContext validateIntegrity(Insertable<SearchKanjiData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('kanjiId')) {
+      context.handle(_kanjiIdMeta,
+          kanjiId.isAcceptableOrUnknown(data['kanjiId']!, _kanjiIdMeta));
+    } else if (isInserting) {
+      context.missing(_kanjiIdMeta);
+    }
+    if (data.containsKey('kanjiOnReadings')) {
+      context.handle(
+          _kanjiOnReadingsMeta,
+          kanjiOnReadings.isAcceptableOrUnknown(
+              data['kanjiOnReadings']!, _kanjiOnReadingsMeta));
+    } else if (isInserting) {
+      context.missing(_kanjiOnReadingsMeta);
+    }
+    if (data.containsKey('kanjiKunReadings')) {
+      context.handle(
+          _kanjiKunReadingsMeta,
+          kanjiKunReadings.isAcceptableOrUnknown(
+              data['kanjiKunReadings']!, _kanjiKunReadingsMeta));
+    } else if (isInserting) {
+      context.missing(_kanjiKunReadingsMeta);
+    }
+    if (data.containsKey('kanjiMeanings')) {
+      context.handle(
+          _kanjiMeaningsMeta,
+          kanjiMeanings.isAcceptableOrUnknown(
+              data['kanjiMeanings']!, _kanjiMeaningsMeta));
+    } else if (isInserting) {
+      context.missing(_kanjiMeaningsMeta);
+    }
+    if (data.containsKey('kanjiFrequency')) {
+      context.handle(
+          _kanjiFrequencyMeta,
+          kanjiFrequency.isAcceptableOrUnknown(
+              data['kanjiFrequency']!, _kanjiFrequencyMeta));
+    } else if (isInserting) {
+      context.missing(_kanjiFrequencyMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => const {};
+  @override
+  SearchKanjiData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SearchKanjiData(
+      kanjiId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}kanjiId'])!,
+      kanjiOnReadings: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}kanjiOnReadings'])!,
+      kanjiKunReadings: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}kanjiKunReadings'])!,
+      kanjiMeanings: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}kanjiMeanings'])!,
+      kanjiFrequency: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}kanjiFrequency'])!,
+    );
+  }
+
+  @override
+  SearchKanji createAlias(String alias) {
+    return SearchKanji(attachedDatabase, alias);
+  }
+
+  @override
+  bool get dontWriteConstraints => true;
+  @override
+  String get moduleAndArgs =>
+      'fts5(kanjiId, kanjiOnReadings, kanjiKunReadings, kanjiMeanings, kanjiFrequency UNINDEXED)';
+}
+
+class SearchKanjiData extends DataClass implements Insertable<SearchKanjiData> {
+  final String kanjiId;
+  final String kanjiOnReadings;
+  final String kanjiKunReadings;
+  final String kanjiMeanings;
+  final String kanjiFrequency;
+  const SearchKanjiData(
+      {required this.kanjiId,
+      required this.kanjiOnReadings,
+      required this.kanjiKunReadings,
+      required this.kanjiMeanings,
+      required this.kanjiFrequency});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['kanjiId'] = Variable<String>(kanjiId);
+    map['kanjiOnReadings'] = Variable<String>(kanjiOnReadings);
+    map['kanjiKunReadings'] = Variable<String>(kanjiKunReadings);
+    map['kanjiMeanings'] = Variable<String>(kanjiMeanings);
+    map['kanjiFrequency'] = Variable<String>(kanjiFrequency);
+    return map;
+  }
+
+  SearchKanjiCompanion toCompanion(bool nullToAbsent) {
+    return SearchKanjiCompanion(
+      kanjiId: Value(kanjiId),
+      kanjiOnReadings: Value(kanjiOnReadings),
+      kanjiKunReadings: Value(kanjiKunReadings),
+      kanjiMeanings: Value(kanjiMeanings),
+      kanjiFrequency: Value(kanjiFrequency),
+    );
+  }
+
+  factory SearchKanjiData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SearchKanjiData(
+      kanjiId: serializer.fromJson<String>(json['kanjiId']),
+      kanjiOnReadings: serializer.fromJson<String>(json['kanjiOnReadings']),
+      kanjiKunReadings: serializer.fromJson<String>(json['kanjiKunReadings']),
+      kanjiMeanings: serializer.fromJson<String>(json['kanjiMeanings']),
+      kanjiFrequency: serializer.fromJson<String>(json['kanjiFrequency']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'kanjiId': serializer.toJson<String>(kanjiId),
+      'kanjiOnReadings': serializer.toJson<String>(kanjiOnReadings),
+      'kanjiKunReadings': serializer.toJson<String>(kanjiKunReadings),
+      'kanjiMeanings': serializer.toJson<String>(kanjiMeanings),
+      'kanjiFrequency': serializer.toJson<String>(kanjiFrequency),
+    };
+  }
+
+  SearchKanjiData copyWith(
+          {String? kanjiId,
+          String? kanjiOnReadings,
+          String? kanjiKunReadings,
+          String? kanjiMeanings,
+          String? kanjiFrequency}) =>
+      SearchKanjiData(
+        kanjiId: kanjiId ?? this.kanjiId,
+        kanjiOnReadings: kanjiOnReadings ?? this.kanjiOnReadings,
+        kanjiKunReadings: kanjiKunReadings ?? this.kanjiKunReadings,
+        kanjiMeanings: kanjiMeanings ?? this.kanjiMeanings,
+        kanjiFrequency: kanjiFrequency ?? this.kanjiFrequency,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('SearchKanjiData(')
+          ..write('kanjiId: $kanjiId, ')
+          ..write('kanjiOnReadings: $kanjiOnReadings, ')
+          ..write('kanjiKunReadings: $kanjiKunReadings, ')
+          ..write('kanjiMeanings: $kanjiMeanings, ')
+          ..write('kanjiFrequency: $kanjiFrequency')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(kanjiId, kanjiOnReadings, kanjiKunReadings,
+      kanjiMeanings, kanjiFrequency);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SearchKanjiData &&
+          other.kanjiId == this.kanjiId &&
+          other.kanjiOnReadings == this.kanjiOnReadings &&
+          other.kanjiKunReadings == this.kanjiKunReadings &&
+          other.kanjiMeanings == this.kanjiMeanings &&
+          other.kanjiFrequency == this.kanjiFrequency);
+}
+
+class SearchKanjiCompanion extends UpdateCompanion<SearchKanjiData> {
+  final Value<String> kanjiId;
+  final Value<String> kanjiOnReadings;
+  final Value<String> kanjiKunReadings;
+  final Value<String> kanjiMeanings;
+  final Value<String> kanjiFrequency;
+  const SearchKanjiCompanion({
+    this.kanjiId = const Value.absent(),
+    this.kanjiOnReadings = const Value.absent(),
+    this.kanjiKunReadings = const Value.absent(),
+    this.kanjiMeanings = const Value.absent(),
+    this.kanjiFrequency = const Value.absent(),
+  });
+  SearchKanjiCompanion.insert({
+    required String kanjiId,
+    required String kanjiOnReadings,
+    required String kanjiKunReadings,
+    required String kanjiMeanings,
+    required String kanjiFrequency,
+  })  : kanjiId = Value(kanjiId),
+        kanjiOnReadings = Value(kanjiOnReadings),
+        kanjiKunReadings = Value(kanjiKunReadings),
+        kanjiMeanings = Value(kanjiMeanings),
+        kanjiFrequency = Value(kanjiFrequency);
+  static Insertable<SearchKanjiData> custom({
+    Expression<String>? kanjiId,
+    Expression<String>? kanjiOnReadings,
+    Expression<String>? kanjiKunReadings,
+    Expression<String>? kanjiMeanings,
+    Expression<String>? kanjiFrequency,
+  }) {
+    return RawValuesInsertable({
+      if (kanjiId != null) 'kanjiId': kanjiId,
+      if (kanjiOnReadings != null) 'kanjiOnReadings': kanjiOnReadings,
+      if (kanjiKunReadings != null) 'kanjiKunReadings': kanjiKunReadings,
+      if (kanjiMeanings != null) 'kanjiMeanings': kanjiMeanings,
+      if (kanjiFrequency != null) 'kanjiFrequency': kanjiFrequency,
+    });
+  }
+
+  SearchKanjiCompanion copyWith(
+      {Value<String>? kanjiId,
+      Value<String>? kanjiOnReadings,
+      Value<String>? kanjiKunReadings,
+      Value<String>? kanjiMeanings,
+      Value<String>? kanjiFrequency}) {
+    return SearchKanjiCompanion(
+      kanjiId: kanjiId ?? this.kanjiId,
+      kanjiOnReadings: kanjiOnReadings ?? this.kanjiOnReadings,
+      kanjiKunReadings: kanjiKunReadings ?? this.kanjiKunReadings,
+      kanjiMeanings: kanjiMeanings ?? this.kanjiMeanings,
+      kanjiFrequency: kanjiFrequency ?? this.kanjiFrequency,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (kanjiId.present) {
+      map['kanjiId'] = Variable<String>(kanjiId.value);
+    }
+    if (kanjiOnReadings.present) {
+      map['kanjiOnReadings'] = Variable<String>(kanjiOnReadings.value);
+    }
+    if (kanjiKunReadings.present) {
+      map['kanjiKunReadings'] = Variable<String>(kanjiKunReadings.value);
+    }
+    if (kanjiMeanings.present) {
+      map['kanjiMeanings'] = Variable<String>(kanjiMeanings.value);
+    }
+    if (kanjiFrequency.present) {
+      map['kanjiFrequency'] = Variable<String>(kanjiFrequency.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SearchKanjiCompanion(')
+          ..write('kanjiId: $kanjiId, ')
+          ..write('kanjiOnReadings: $kanjiOnReadings, ')
+          ..write('kanjiKunReadings: $kanjiKunReadings, ')
+          ..write('kanjiMeanings: $kanjiMeanings, ')
+          ..write('kanjiFrequency: $kanjiFrequency')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $JlptLevelsTable extends JlptLevels
     with TableInfo<$JlptLevelsTable, JlptLevel> {
   @override
@@ -3322,6 +3638,7 @@ class KanjiVariantsCompanion extends UpdateCompanion<KanjiVariant> {
 
 abstract class _$TKDBDatabase extends GeneratedDatabase {
   _$TKDBDatabase(QueryExecutor e) : super(e);
+  late final SearchKanji searchKanji = SearchKanji(this);
   late final $JlptLevelsTable jlptLevels = $JlptLevelsTable(this);
   late final $RadicalsTable radicals = $RadicalsTable(this);
   late final $RadicalMeaningsTable radicalMeanings =
@@ -3346,6 +3663,7 @@ abstract class _$TKDBDatabase extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
+        searchKanji,
         jlptLevels,
         radicals,
         radicalMeanings,

@@ -17,6 +17,8 @@ class TKDBDriftMapper {
     await _upsertKeywords(tkdbJson.keywords);
     await _upsertRadicals(tkdbJson.radicals);
     await _upsertKanjis(tkdbJson.kanji);
+
+    await _upsertSearchKanji();
   }
 
   //
@@ -318,6 +320,25 @@ class TKDBDriftMapper {
         variantKanjiId: variant,
       );
       await database.into(database.kanjiVariants).insertOnConflictUpdate(entry);
+    }
+  }
+
+  Future<void> _upsertSearchKanji() async {
+    final kanjis = await database.allKanjiEntries;
+
+    for (final kanji in kanjis) {
+      final kunReadings = await database.getKanjiReadings(kanji.kanjiId, 'kun');
+      final onReadings = await database.getKanjiReadings(kanji.kanjiId, 'on');
+      final meanings = await database.getKanjiMeanings(kanji.kanjiId);
+
+      final entry = SearchKanjiData(
+        kanjiId: kanji.kanjiId,
+        kanjiFrequency: kanji.frequencyJ.toString(),
+        kanjiMeanings: meanings.join(','),
+        kanjiKunReadings: kunReadings.join(','),
+        kanjiOnReadings: onReadings.join(','),
+      );
+      await database.into(database.searchKanji).insert(entry);
     }
   }
 }

@@ -209,24 +209,58 @@ class KanjiVariants extends Table {
 // Database
 //
 
-@DriftDatabase(tables: [
-  JlptLevels,
-  Radicals,
-  RadicalMeanings,
-  RadicalReadings,
-  Kanjis,
-  KanjiGrades,
-  KanjiReadings,
-  KanjiReadingTypes,
-  KanjiMeanings,
-  KanjiParts,
-  KanjiLookalikes,
-  KanjiAntonyms,
-  KanjiSynonyms,
-  KanjiVariants,
-])
+@DriftDatabase(
+  tables: [
+    JlptLevels,
+    Radicals,
+    RadicalMeanings,
+    RadicalReadings,
+    Kanjis,
+    KanjiGrades,
+    KanjiReadings,
+    KanjiReadingTypes,
+    KanjiMeanings,
+    KanjiParts,
+    KanjiLookalikes,
+    KanjiAntonyms,
+    KanjiSynonyms,
+    KanjiVariants,
+  ],
+  include: {'tables.drift'},
+)
 class TKDBDatabase extends _$TKDBDatabase {
   TKDBDatabase() : super(_openConnection());
+
+  Future<List<Kanji>> get allKanjiEntries => select(kanjis).get();
+
+  Future<Kanji?> getKanjiEntry(String kanjiId) {
+    return (select(kanjis)..where((t) => t.kanjiId.equals(kanjiId)))
+        .getSingleOrNull();
+  }
+
+  Future<KanjiReading?> getKanjiReadingEntry(String kanjiId) {
+    return (select(kanjiReadings)..where((t) => t.kanjiId.equals(kanjiId)))
+        .getSingleOrNull();
+  }
+
+  Future<List<String>> getKanjiReadings(
+      String kanjiId, String kanjiReadingTypeId) {
+    final query = select(kanjiReadings)
+      ..where((t) =>
+          t.kanjiId.equals(kanjiId) &
+          t.kanjiReadingTypeId.equals(kanjiReadingTypeId))
+      ..orderBy([(t) => OrderingTerm(expression: t.position)]);
+
+    return query.map((row) => row.value.replaceAll('.', '')).get();
+  }
+
+  Future<List<String>> getKanjiMeanings(String kanjiId) {
+    final query = select(kanjiMeanings)
+      ..where((t) => t.kanjiId.equals(kanjiId))
+      ..orderBy([(t) => OrderingTerm(expression: t.position)]);
+
+    return query.map((row) => row.value).get();
+  }
 
   @override
   int get schemaVersion => 1;
